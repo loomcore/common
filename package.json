@@ -26,8 +26,11 @@
     "dist/**/*"
   ],
   "exports": {
-    ".": "./dist/index.js",
-    "./types": "./dist/types/index.js"
+    "./errors": "./dist/errors/index.js",
+    "./models": "./dist/models/index.js",
+    "./types": "./dist/types/index.js",
+    "./utils": "./dist/utils/index.js",
+    "./validation": "./dist/validation/index.js"
   },
   "dependencies": {
     "decimal.js": "^10.5.0"
