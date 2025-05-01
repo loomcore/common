@@ -6,7 +6,7 @@
     "tsBuildInfoFile": null,
     "sourceMap": false,
     "emitDeclarationOnly": false,
-    "declaration": false,
+    "declaration": true,
     "declarationMap": false,
     "paths": {
     }
