@@ -1,6 +1,6 @@
 {
   "name": "@loomcore/common",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": false,
   "description": "Loom Core Models- common models, interfaces, types, and utils for Loom Core. All things common to both api and client apps.",
   "scripts": {
@@ -15,7 +15,6 @@
     "publishMe": "npm publish --access public",
     "pub": "npm-run-all -s add commit patch build push publishMe",
     "auth-and-pub": "npm-run-all -s add commit patch build push gar-login publishMe",
-
     "test": "cross-env NODE_ENV=test vitest run",
     "test:ci": "cross-env NODE_ENV=test vitest run --reporter=json --outputFile=test-results.json",
     "test:watch": "cross-env NODE_ENV=test vitest"
