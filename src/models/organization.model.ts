@@ -1,10 +1,9 @@
 import {IAuditable} from './auditable.model.js';
-import {ObjectId} from 'mongodb';
 import { Type, Static } from '@sinclair/typebox';
 import { entityUtils } from '../utils/index.js';
 
 export interface IOrganization extends IAuditable {
-  _id: ObjectId;
+  _id: string;
   name: string;
   code: string;
   description?: string;

@@ -2,7 +2,6 @@ import { Type, Kind, TSchema, NumberOptions, ValueGuard, StaticEncode, StaticDec
 import { TypeRegistry } from '@sinclair/typebox';
 import { Decimal as _Decimal } from 'decimal.js';
 import { Value } from '@sinclair/typebox/value';
-import { ObjectId } from 'mongodb';
 
 // Date-time transform utility functions
 export function TypeboxIsoDate(options: object = {}) {

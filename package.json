@@ -12,7 +12,7 @@
     "patch": "npm version patch",
     "push": "git push",
     "gar-login": "npx --yes google-artifactregistry-auth",
-    "publishMe": "npm publish",
+    "publishMe": "npm publish --access public",
     "pub": "npm-run-all -s add commit patch build push publishMe",
     "auth-and-pub": "npm-run-all -s add commit patch build push gar-login publishMe"
   },

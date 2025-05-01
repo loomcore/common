@@ -1,5 +1,4 @@
 import { StaticDecode, StaticEncode, TSchema, Type } from '@sinclair/typebox';
-import { ObjectId } from 'mongodb';
 import { DefaultErrorFunction, ErrorFunctionParameter, ValueErrorType, SetErrorFunction } from '@sinclair/typebox/errors'
 import { Kind } from '@sinclair/typebox'
 import { FormatRegistry } from '@sinclair/typebox'
@@ -10,18 +9,6 @@ import './typebox-extensions.js';
 import { Value } from '@sinclair/typebox/value';
 import { IsEmail } from './formats/email.js';
 import { IsObjectId } from './formats/objectid.js';
-
-
-// Custom objectId validator function
-export const isValidObjectId = (value: string): boolean => {
-  try {
-    return ObjectId.isValid(value) && 
-           new ObjectId(value).toString() === value;
-  } 
-  catch {
-    return false;
-  }
-};
 
 // Can be used to add custom validations when creating schemas
 // e.g., Type.String({ format: 'objectId' })
