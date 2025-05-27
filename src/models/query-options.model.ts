@@ -7,7 +7,7 @@ import {SortDirection} from '../types/sort-direction.type.js';
  * filters[name][contains]=burk
  */
 export type Filter = {
-	eq?: string | number | boolean | Date;
+	eq?: string | number | boolean | Date;	// e.g. filters[uniqEntity][eq]=70308
 	ne?: string | number | boolean | Date;
 	any?: string[] | number[];
 	all?: string[] | number[];
@@ -18,6 +18,7 @@ export type Filter = {
 	startsWith?: string;
 	endsWith?: string;
 	contains?: string;
+	in?: string[] | number[] | Date[]; 			// e.g. filters[clientId][in]=101,102,104
 };
 
 export interface IQueryOptions {
