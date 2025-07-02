@@ -33,7 +33,7 @@ export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema);
 // ******************************************************
 // functions to handle initializing the system user context - we need config and the metaOrgId to properly initialize
 // Factory function to create and cache the SystemUserContext
-export function initializeSystemUserContext(systemEmail: string, metaOrgId: string): IUserContext {
+export function initializeSystemUserContext(systemEmail: string, metaOrgId: string | undefined): IUserContext {
   _systemUserContext = {
     user: {
       _id: 'system',
