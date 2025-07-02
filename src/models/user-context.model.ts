@@ -47,7 +47,6 @@ export function initializeSystemUserContext(systemEmail: string, metaOrgId: stri
     },
     _orgId: metaOrgId,
   };
-  console.log('SystemUserContext initialized successfully');
   return _systemUserContext;
 }
 
