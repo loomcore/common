@@ -1,12 +1,13 @@
-import { ValidationError } from '../errors/index.js';
 import { TSchema, Type, StaticEncode, StaticDecode } from '@sinclair/typebox';
+import { Value } from '@sinclair/typebox/value';
 import { TypeCompiler } from '@sinclair/typebox/compiler';
 import { ValueError, ValueErrorType } from '@sinclair/typebox/errors';
+
+import { ValidationError } from '../errors/index.js';
 import { EntitySchema } from '../models/entity.model.js';
 import { AuditableSchema } from '../models/auditable.model.js';
 import { IAuditable } from '../models/auditable.model.js';
 import { IModelSpec } from '../models/model-spec.interface.js';
-import { Value } from '@sinclair/typebox/value';
 
 
 /**
