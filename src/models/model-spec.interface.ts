@@ -46,13 +46,6 @@ export interface IModelSpec<T extends TSchema = TSchema> {
   isMultiTenant?: boolean;
 
   /**
-   * Clean method that removes properties not defined in the schema
-   * @param entity The entity to clean
-   * @returns A cleaned entity with only schema-defined properties
-   */
-  // clean: <E>(entity: E) => E;
-
-  /**
    * Encode method that converts values to the correct type
    * @param type The TypeBox type to encode
    * @param value The value to encode

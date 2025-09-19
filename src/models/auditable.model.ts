@@ -6,6 +6,8 @@ export interface IAuditable {
   _createdBy: string;
   _updated: Date;
   _updatedBy: string;
+  _deleted?: Date;
+  _deletedBy?: string;
 }
 
 /**
@@ -16,4 +18,6 @@ export const AuditableSchema = Type.Object({
   _createdBy: Type.String(),
   _updated: TypeboxIsoDate(),
   _updatedBy: Type.String(),
+  _deleted: Type.Optional(TypeboxIsoDate()),
+  _deletedBy: Type.Optional(Type.String()),
 });
