@@ -5,24 +5,24 @@ import { Value } from '@sinclair/typebox/value';
 
 // Date-time transform utility functions
 export function TypeboxIsoDate(options: object = {}) {
-  return Type.Transform(Type.String({ format: 'date-time', ...options }))
-    .Decode(value => new Date(value))
-    .Encode(value => value.toISOString());
+    const dateTransform = Type.Transform(Type.String({ format: 'date-time', ...options }))
+        .Decode(value => new Date(value))
+        .Encode(value => value.toISOString());
+    return Type.Union([dateTransform, Type.Null()]);
 }
 
 // Date transform utility functions
 export function TypeboxDate(options: object = {}) {
-  return Type.Transform(Type.String({ format: 'date', ...options }))
-    .Decode(value => {
-      const date = new Date(value);
-      // Set time to midnight UTC to ensure consistent date-only representation
-      date.setUTCHours(0, 0, 0, 0);
-      return date;
-    })
-    .Encode(value => {
-      // Format as YYYY-MM-DD
-      return value.toISOString().split('T')[0];
-    });
+    const dateTransform = Type.Transform(Type.String({ format: 'date', ...options }))
+        .Decode(value => {
+            const date = new Date(value);
+            date.setUTCHours(0, 0, 0, 0);
+            return date;
+        })
+        .Encode(value => {
+            return value.toISOString().split('T')[0];
+        });
+    return Type.Union([dateTransform, Type.Null()]);
 }
 
 // ObjectId transform utility functions
