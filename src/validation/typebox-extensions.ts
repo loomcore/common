@@ -8,7 +8,7 @@ export function TypeboxIsoDate(options: object = {}) {
     const dateTransform = Type.Transform(Type.String({ format: 'date-time', ...options }))
         .Decode(value => new Date(value))
         .Encode(value => value.toISOString());
-    return Type.Union([dateTransform, Type.Null()]);
+    return Type.Union([dateTransform, Type.Undefined()]);
 }
 
 // Date transform utility functions
@@ -22,7 +22,7 @@ export function TypeboxDate(options: object = {}) {
         .Encode(value => {
             return value.toISOString().split('T')[0];
         });
-    return Type.Union([dateTransform, Type.Null()]);
+    return Type.Union([dateTransform, Type.Undefined()]);
 }
 
 // ObjectId transform utility functions
