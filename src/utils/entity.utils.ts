@@ -64,7 +64,7 @@ function getModelSpec<T extends TSchema>(
   }
 
   // decode receives json and converts all properties into their correct types (like going from iso string to date)
-  const decode = <E>(entity: E): E => {
+  const decode = <E>(entity: any): E => {
     if (entity === null || entity === undefined) {
       return entity;
     }

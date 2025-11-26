@@ -51,7 +51,7 @@ export interface IModelSpec<T extends TSchema = TSchema> {
    * @param value The value to encode
    * @returns The encoded value
    */
-  encode: <E>(entity: E, overrideSchema?: TSchema) => E;
+  encode: <E>(entity: E, overrideSchema?: TSchema) => any;
 
   /**
    * Decode method that converts values to the correct type
@@ -59,7 +59,7 @@ export interface IModelSpec<T extends TSchema = TSchema> {
    * @param value The value to decode
    * @returns The decoded value
    */
-  decode: <E>(entity: E) => E;
+  decode: <E>(entity: any) => E;
 
   /**
    * Clean method that removes properties not defined in the schema
