@@ -51,7 +51,7 @@ function getModelSpec<T extends TSchema>(
   const fullValidator = getValidator(fullSchema);
   
   // encode receives an entity and converts all properties into their json types (like going from date to iso string)
-  const encode = <E>(entity: E, overrideSchema?: TSchema): E => {
+  const encode = <E>(entity: E, overrideSchema?: TSchema): any => {
     if (entity === null || entity === undefined) {
       return entity;
     }
@@ -60,7 +60,7 @@ function getModelSpec<T extends TSchema>(
     const schemaToUse = overrideSchema || fullSchema;
     
     // Have to call encode before clean because clean can't handle class instances (like ObjectId)
-    return Value.Parse(['Encode', 'Clean'], schemaToUse, entity) as never;
+    return Value.Parse(['Encode', 'Clean'], schemaToUse, entity);
   }
 
   // decode receives json and converts all properties into their correct types (like going from iso string to date)
@@ -70,7 +70,7 @@ function getModelSpec<T extends TSchema>(
     }
     
     // We are not using the Assert step here because we are not using these for validation - we use the validators for that
-    return Value.Parse(['Clean', 'Default', 'Convert', 'Decode'], fullSchema, entity) as never;
+    return Value.Parse(['Clean', 'Default', 'Convert', 'Decode'], fullSchema, entity) as E;
   }
   
   // Create a clean method that removes properties not in the schema
