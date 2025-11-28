@@ -1,5 +1,4 @@
 import { Type } from '@sinclair/typebox';
-import { TypeboxObjectId } from "../validation/index.js";
 
 export interface IEntity {
   _id: string;
@@ -10,7 +9,7 @@ export interface IEntity {
  * Schema definition for the IEntity interface to be used in validation and cleaning
  */
 export const EntitySchema = Type.Object({
-  _id: TypeboxObjectId({ title: 'ID' }),
+  _id: Type.String({ title: 'ID' }),
   _orgId: Type.Optional(Type.String({ title: 'Organization ID' }))
 });
 
