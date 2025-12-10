@@ -1,5 +1,6 @@
 // Export all models
 export * from './user.model.js';
+export * from './authorization.model.js';
 export * from './organization.model.js';
 export * from './user-context.model.js';
 export * from './entity.model.js';
