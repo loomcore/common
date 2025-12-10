@@ -1,10 +1,10 @@
 import { TypeboxIsoDate, TypeboxMoney } from '../validation/typebox-extensions.js';
-import {IAuditable} from './auditable.model.js';
-import {IEntity, EntitySchema} from './entity.model.js';
-import {Type} from '@sinclair/typebox';
-import {entityUtils} from '../utils/entity.utils.js';
+import { IAuditable } from './auditable.model.js';
+import { IEntity, EntitySchema } from './entity.model.js';
+import { Type } from '@sinclair/typebox';
+import { entityUtils } from '../utils/entity.utils.js';
 import { TypeCompiler } from '@sinclair/typebox/compiler';
-import { AuditableSchema } from './auditable.model.js';
+import { IAuthorization } from './authorization.model.js';
 
 export interface IUser extends IAuditable, IEntity {
 	email: string;
@@ -12,7 +12,7 @@ export interface IUser extends IAuditable, IEntity {
 	lastName?: string;
 	displayName?: string;
 	password: string;
-	roles?: string[];
+	authorizations: IAuthorization[];
 	_lastLoggedIn?: Date;
 	_lastPasswordChange?: Date;
 }
@@ -30,10 +30,10 @@ export const passwordValidator = TypeCompiler.Compile(UserPasswordSchema);
 
 // User-specific properties schema
 export const UserSchema = Type.Object({
-  email: Type.String({
-    title: 'Email',
+	email: Type.String({
+		title: 'Email',
 		format: 'email'
-  }),
+	}),
 	firstName: Type.Optional(Type.String({
 		title: 'First Name'
 	})),
@@ -54,7 +54,7 @@ export const UserSchema = Type.Object({
 });
 
 // Create the model spec first
-export const UserSpec = entityUtils.getModelSpec(UserSchema, { isAuditable: true }); // I don't think isMultiTenant is being used anywhere - consider removing
+export const UserSpec = entityUtils.getModelSpec(UserSchema, { isAuditable: true });
 
 // Then create the public schema by omitting the password from the full schema
 export const PublicUserSchema = Type.Omit(UserSpec.fullSchema, ['password']);

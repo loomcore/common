@@ -5,32 +5,32 @@ import { Value } from '@sinclair/typebox/value';
 
 // Date-time transform utility functions
 export function TypeboxIsoDate(options: object = {}) {
-    const dateTransform = Type.Transform(Type.String({ format: 'date-time', ...options }))
-        .Decode(value => new Date(value))
-        .Encode(value => value.toISOString());
-    return Type.Union([dateTransform, Type.Undefined()]);
+  const dateTransform = Type.Transform(Type.String({ format: 'date-time', ...options }))
+    .Decode(value => new Date(value))
+    .Encode(value => value.toISOString());
+  return dateTransform;
 }
 
 // Date transform utility functions
 export function TypeboxDate(options: object = {}) {
-    const dateTransform = Type.Transform(Type.String({ format: 'date', ...options }))
-        .Decode(value => {
-            const date = new Date(value);
-            date.setUTCHours(0, 0, 0, 0);
-            return date;
-        })
-        .Encode(value => {
-            return value.toISOString().split('T')[0];
-        });
-    return Type.Union([dateTransform, Type.Undefined()]);
+  const dateTransform = Type.Transform(Type.String({ format: 'date', ...options }))
+    .Decode(value => {
+      const date = new Date(value);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    })
+    .Encode(value => {
+      return value.toISOString().split('T')[0];
+    });
+  return dateTransform;
 }
 
 // ObjectId transform utility functions
 export function TypeboxObjectId(options: object = {}) {
   // Use string with objectid format instead of transform
-  return Type.String({ 
+  return Type.String({
     format: 'objectid',
-    ...options 
+    ...options
   });
 }
 

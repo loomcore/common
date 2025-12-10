@@ -9,12 +9,12 @@ export interface IModelSpec<T extends TSchema = TSchema> {
    * The primary TypeBox schema for validating all user-supplied properties
    */
   schema: T;
-  
+
   /**
    * Partial version of the schema for validating update operations
    */
   partialSchema: TSchema;
-  
+
   /**
    * Full version of the schema (user and system properties)for validating complete documents
    */
@@ -24,12 +24,12 @@ export interface IModelSpec<T extends TSchema = TSchema> {
    * Compiled validator for the primary schema
    */
   validator: ReturnType<typeof TypeCompiler.Compile>;
-  
+
   /**
    * Compiled validator for the partial schema
    */
   partialValidator: ReturnType<typeof TypeCompiler.Compile>;
-  
+
   /**
    * Compiled validator for the full schema
    */
@@ -39,11 +39,6 @@ export interface IModelSpec<T extends TSchema = TSchema> {
    * Indicates whether the model is auditable
    */
   isAuditable?: boolean;
-
-  /**
-   * Indicates whether the model is multi-tenant
-   */
-  isMultiTenant?: boolean;
 
   /**
    * Encode method that converts values to the correct type

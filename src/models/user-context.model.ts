@@ -1,11 +1,11 @@
-import {IUser} from './user.model.js';
+import { IUser } from './user.model.js';
 import { Type } from '@sinclair/typebox';
 import { PublicUserSchema } from './user.model.js';
 import { entityUtils } from '../utils/entity.utils.js';
 
 export interface IUserContext {
   user: IUser;
-	_orgId?: string;
+  _orgId?: string;
 }
 
 export const EmptyUserContext: IUserContext = {
@@ -39,7 +39,14 @@ export function initializeSystemUserContext(systemEmail: string, metaOrgId: stri
       _id: 'system',
       email: systemEmail,
       password: '',
-      // todo: get rid of these as soon as I get validation working in controllers instead of models - users can't supply these!
+      authorizations: [{
+        _id: 'system',
+        feature: 'system',
+        _created: new Date(),
+        _createdBy: 'system',
+        _updated: new Date(),
+        _updatedBy: 'system',
+      }],
       _created: new Date(),
       _createdBy: 'system',
       _updated: new Date(),

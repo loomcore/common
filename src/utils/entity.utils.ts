@@ -24,41 +24,41 @@ function getValidator(schema: TSchema): ReturnType<typeof TypeCompiler.Compile> 
 /**
  * Creates an object with schema and validators - everything needed for validation
  * @param schema The original TypeBox schema
- * @param options Configuration options (e.g., { isAuditable: true, isMultiTenant: true })
+ * @param options Configuration options (e.g., { isAuditable: true })
  * @returns Object containing schema, partialSchema, fullSchema, validator, partialValidator, and fullValidator
  */
 function getModelSpec<T extends TSchema>(
-  schema: T, 
-  options: { isAuditable?: boolean; isMultiTenant?: boolean } = {}
+  schema: T,
+  options: { isAuditable?: boolean; } = {}
 ): IModelSpec {
   const partialSchema = Type.Partial(schema);
-  
+
   // Create array of schemas to include in the full schema
   const schemasToIntersect = [];
   schemasToIntersect.push(schema);
   schemasToIntersect.push(EntitySchema);
-  
+
   if (options.isAuditable) {
     schemasToIntersect.push(AuditableSchema);
   }
-  
+
   // Create the full schema using Type.Intersect
   const fullSchema = Type.Intersect(schemasToIntersect);
-  
+
   // Create validators for all schemas
   const validator = getValidator(schema);
   const partialValidator = getValidator(partialSchema);
   const fullValidator = getValidator(fullSchema);
-  
+
   // encode receives an entity and converts all properties into their json types (like going from date to iso string)
   const encode = <E>(entity: E, overrideSchema?: TSchema): any => {
     if (entity === null || entity === undefined) {
       return entity;
     }
-    
+
     // Use the override schema if provided, otherwise use the fullSchema
     const schemaToUse = overrideSchema || fullSchema;
-    
+
     // Have to call encode before clean because clean can't handle class instances (like ObjectId)
     return Value.Parse(['Encode', 'Clean'], schemaToUse, entity);
   }
@@ -68,19 +68,19 @@ function getModelSpec<T extends TSchema>(
     if (entity === null || entity === undefined) {
       return entity;
     }
-    
+
     // We are not using the Assert step here because we are not using these for validation - we use the validators for that
     return Value.Parse(['Clean', 'Default', 'Convert', 'Decode'], fullSchema, entity) as E;
   }
-  
+
   // Create a clean method that removes properties not in the schema
   const clean = <E>(entity: E): E => {
     if (!entity) return entity;
-    
+
     // Use the full schema to ensure all entity properties are included
     return Value.Clean(fullSchema, entity) as E;
   };
-  
+
   return {
     schema,
     partialSchema,
@@ -89,7 +89,6 @@ function getModelSpec<T extends TSchema>(
     partialValidator,
     fullValidator,
     isAuditable: !!options.isAuditable,
-    isMultiTenant: !!options.isMultiTenant,
     encode,
     decode,
     clean
@@ -107,12 +106,12 @@ function validate(
   data: unknown
 ): ValueError[] | null {
   const valid = validator.Check(data);
-  
+
   if (!valid) {
     const errors = [...validator.Errors(data)];
     return errors;
   }
-  
+
   return null;
 }
 
@@ -130,15 +129,10 @@ function handleValidationResult(validationErrors: ValueError[] | null, methodNam
 
 function isValidObjectId(id: any) {
   let result = false;
-	if (typeof id === 'string' || id instanceof String) {
-  	result = id.match(/^[0-9a-fA-F]{24}$/) ? true : false;
+  if (typeof id === 'string' || id instanceof String) {
+    result = id.match(/^[0-9a-fA-F]{24}$/) ? true : false;
   }
-	else {
-		console.log(`entityUtils.isValidObjectId called with something other than a string. id = ${id}`);
-		console.log(`typeof id = ${typeof id}`);
-		console.log('id = ', id);
-	}
-	return result;
+  return result;
 }
 
 /**
@@ -147,12 +141,12 @@ function isValidObjectId(id: any) {
  * @returns true if the entity has audit properties (_created, _createdBy, _updated, _updatedBy)
  */
 function isAuditable(entity: any): entity is IAuditable {
-  return entity !== null && 
-    typeof entity === 'object' && 
-    (entity.hasOwnProperty('_created') || 
-     entity.hasOwnProperty('_createdBy') || 
-     entity.hasOwnProperty('_updated') || 
-     entity.hasOwnProperty('_updatedBy'));
+  return entity !== null &&
+    typeof entity === 'object' &&
+    (entity.hasOwnProperty('_created') ||
+      entity.hasOwnProperty('_createdBy') ||
+      entity.hasOwnProperty('_updated') ||
+      entity.hasOwnProperty('_updatedBy'));
 }
 
 /**
@@ -167,12 +161,12 @@ function isDecimalMultipleOf(value: number, multipleOf: number, precision: numbe
   const scale = Math.pow(10, precision);
   const scaledValue = Math.round(value * scale);
   const scaledMultipleOf = Math.round(multipleOf * scale);
-  
+
   // Now we can check if the scaled value is a multiple of the scaled multipleOf
   return scaledValue % scaledMultipleOf === 0;
 }
 
-export const entityUtils =  {
+export const entityUtils = {
   handleValidationResult,
   isValidObjectId,
   isAuditable,
