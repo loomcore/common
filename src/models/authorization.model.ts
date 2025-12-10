@@ -13,3 +13,7 @@ export const authorizationSchema = Type.Object({
 });
 
 export const authorizationModelSpec = entityUtils.getModelSpec(authorizationSchema, { isAuditable: true });
+
+export const publicAuthorizationSchema = Type.Omit(
+    authorizationModelSpec.fullSchema,
+    ['_id', '_orgId', '_created', '_createdBy', '_updated', '_updatedBy']);

@@ -4,7 +4,7 @@ import { IEntity, EntitySchema } from './entity.model.js';
 import { Type } from '@sinclair/typebox';
 import { entityUtils } from '../utils/entity.utils.js';
 import { TypeCompiler } from '@sinclair/typebox/compiler';
-import { IAuthorization } from './authorization.model.js';
+import { authorizationSchema, IAuthorization } from './authorization.model.js';
 
 export interface IUser extends IAuditable, IEntity {
 	email: string;
@@ -45,10 +45,7 @@ export const UserSchema = Type.Object({
 	})),
 	// Add password using the same type definition from UserPasswordSchema
 	password: UserPasswordSchema.properties.password,
-	roles: Type.Optional(Type.Array(Type.String({
-		title: 'Roles',
-		// We are going to allow defining roles in the database - they won't be hard-coded here
-	}))),
+	authorizations: Type.Array(authorizationSchema),
 	_lastLoggedIn: Type.Optional(TypeboxIsoDate({ title: 'Last Login Date' })),
 	_lastPasswordChange: Type.Optional(TypeboxIsoDate({ title: 'Last Password Change Date' })),
 });
