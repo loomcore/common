@@ -45,7 +45,6 @@ export const UserSchema = Type.Object({
 	})),
 	// Add password using the same type definition from UserPasswordSchema
 	password: UserPasswordSchema.properties.password,
-	authorizations: Type.Array(authorizationSchema),
 	_lastLoggedIn: Type.Optional(TypeboxIsoDate({ title: 'Last Login Date' })),
 	_lastPasswordChange: Type.Optional(TypeboxIsoDate({ title: 'Last Password Change Date' })),
 });
@@ -53,7 +52,7 @@ export const UserSchema = Type.Object({
 // Create the model spec first
 export const UserSpec = entityUtils.getModelSpec(UserSchema, { isAuditable: true });
 
-// Then create the public schema by omitting the password from the full schema
-export const PublicUserSchema = Type.Omit(UserSpec.fullSchema, ['password']);
-
-
+// Then create the public schema by omitting the password from the full schema and adding the authorizations array
+export const PublicUserSchema = Type.Union([Type.Omit(UserSpec.fullSchema, ['password']), Type.Object({
+	authorizations: Type.Array(authorizationSchema)
+})]);
