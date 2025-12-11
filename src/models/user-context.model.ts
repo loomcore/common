@@ -39,12 +39,16 @@ export function initializeSystemUserContext(systemEmail: string, metaOrgId: stri
     user: {
       _id: 'system',
       _orgId: metaOrgId,
+      firstName: 'System',
+      lastName: 'User',
+      displayName: 'System User',
       email: systemEmail,
       password: '',
       authorizations: [{
         _id: 'system-authorization',
         _orgId: metaOrgId,
-        feature: 'system-authorization',
+        role: 'system',
+        feature: 'system',
         _created: new Date(),
         _createdBy: 'system',
         _updated: new Date(),

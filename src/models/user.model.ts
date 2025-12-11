@@ -4,7 +4,7 @@ import { IEntity } from './entity.model.js';
 import { Type } from '@sinclair/typebox';
 import { entityUtils } from '../utils/entity.utils.js';
 import { TypeCompiler } from '@sinclair/typebox/compiler';
-import { IAuthorization, PublicAuthorizationSchema } from './authorization.model.js';
+import { IAuthorization, AuthorizationSchema } from './authorization.model.js';
 
 export interface IUser extends IAuditable, IEntity {
 	email: string;
@@ -68,7 +68,7 @@ export const PublicUserSchema = Type.Object({
 	displayName: Type.Optional(Type.String({
 		title: 'Display Name'
 	})),
-	authorizations: Type.Optional(Type.Array(PublicAuthorizationSchema)),
+	authorizations: Type.Optional(Type.Array(AuthorizationSchema)),
 	_lastLoggedIn: Type.Optional(TypeboxIsoDate({ title: 'Last Login Date' })),
 	_lastPasswordChange: Type.Optional(TypeboxIsoDate({ title: 'Last Password Change Date' })),
 });
