@@ -2,6 +2,8 @@ import { IUser, UserSchema } from './user.model.js';
 import { Type } from '@sinclair/typebox';
 import { PublicUserSchema } from './user.model.js';
 import { entityUtils } from '../utils/entity.utils.js';
+import { EntitySchema } from './entity.model.js';
+import { AuditableSchema } from './auditable.model.js';
 
 export interface IUserContext {
   user: IUser;
@@ -16,14 +18,14 @@ export const EmptyUserContext: IUserContext = {
 let _systemUserContext: IUserContext | null = null;
 
 export const UserContextSchema = Type.Object({
-  user: UserSchema,
+  user: Type.Intersect([EntitySchema, AuditableSchema, UserSchema]),
   _orgId: Type.Optional(Type.String())
 });
 
 export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema);
 
 export const PublicUserContextSchema = Type.Object({
-  user: PublicUserSchema,
+  user: Type.Intersect([EntitySchema, AuditableSchema, PublicUserSchema]),
   _orgId: Type.Optional(Type.String())
 });
 
