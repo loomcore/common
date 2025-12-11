@@ -1,7 +1,6 @@
-import {IUser} from './user.model.js';
-import {ITokenResponse, TokenResponseSchema} from './token-response.model.js';
+import { ITokenResponse, TokenResponseSchema } from './token-response.model.js';
 import { Type } from '@sinclair/typebox';
-import { IUserContext, UserContextSchema } from './user-context.model.js';
+import { IUserContext, PublicUserContextSchema } from './user-context.model.js';
 import { entityUtils } from '../utils/entity.utils.js';
 
 export interface ILoginResponse {
@@ -14,7 +13,7 @@ export interface ILoginResponse {
  */
 export const LoginResponseSchema = Type.Object({
   tokens: TokenResponseSchema,
-  userContext: UserContextSchema
+  userContext: PublicUserContextSchema
 });
 
 /**

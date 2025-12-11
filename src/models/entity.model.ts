@@ -12,6 +12,3 @@ export const EntitySchema = Type.Object({
   _id: Type.String({ title: 'ID' }),
   _orgId: Type.Optional(Type.String({ title: 'Organization ID' }))
 });
-
-
-

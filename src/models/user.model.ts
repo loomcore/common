@@ -53,7 +53,7 @@ export const UserSchema = Type.Object({
 export const UserSpec = entityUtils.getModelSpec(UserSchema, { isAuditable: true });
 
 // User Schema minus password plus authorizations
-// Union or Intersect didn't seem to work as expected, so we're using a simple object
+// Omit / Intersect didn't seem to work as expected, so we're using a simple object
 export const PublicUserSchema = Type.Object({
 	email: Type.String({
 		title: 'Email',
@@ -72,3 +72,5 @@ export const PublicUserSchema = Type.Object({
 	_lastLoggedIn: Type.Optional(TypeboxIsoDate({ title: 'Last Login Date' })),
 	_lastPasswordChange: Type.Optional(TypeboxIsoDate({ title: 'Last Password Change Date' })),
 });
+
+export const PublicUserSpec = entityUtils.getModelSpec(PublicUserSchema, { isAuditable: true });
