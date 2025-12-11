@@ -7,13 +7,13 @@ export interface IAuthorization extends IEntity, IAuditable {
     config?: object;
 }
 
-export const authorizationSchema = Type.Object({
+export const AuthorizationSchema = Type.Object({
     feature: Type.String({ minLength: 1 }),
     config: Type.Optional(Type.Object({}))
 });
 
-export const authorizationModelSpec = entityUtils.getModelSpec(authorizationSchema, { isAuditable: true });
+export const AuthorizationModelSpec = entityUtils.getModelSpec(AuthorizationSchema, { isAuditable: true });
 
-export const publicAuthorizationSchema = Type.Omit(
-    authorizationModelSpec.fullSchema,
+export const PublicAuthorizationSchema = Type.Omit(
+    AuthorizationModelSpec.fullSchema,
     ['_id', '_orgId', '_created', '_createdBy', '_updated', '_updatedBy']);

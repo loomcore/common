@@ -1,10 +1,10 @@
-import { TypeboxIsoDate, TypeboxMoney } from '../validation/typebox-extensions.js';
+import { TypeboxIsoDate } from '../validation/typebox-extensions.js';
 import { IAuditable } from './auditable.model.js';
-import { IEntity, EntitySchema } from './entity.model.js';
+import { IEntity } from './entity.model.js';
 import { Type } from '@sinclair/typebox';
 import { entityUtils } from '../utils/entity.utils.js';
 import { TypeCompiler } from '@sinclair/typebox/compiler';
-import { authorizationSchema, IAuthorization } from './authorization.model.js';
+import { IAuthorization, PublicAuthorizationSchema } from './authorization.model.js';
 
 export interface IUser extends IAuditable, IEntity {
 	email: string;
@@ -12,7 +12,7 @@ export interface IUser extends IAuditable, IEntity {
 	lastName?: string;
 	displayName?: string;
 	password: string;
-	authorizations: IAuthorization[];
+	authorizations?: IAuthorization[];
 	_lastLoggedIn?: Date;
 	_lastPasswordChange?: Date;
 }
@@ -52,7 +52,23 @@ export const UserSchema = Type.Object({
 // Create the model spec first
 export const UserSpec = entityUtils.getModelSpec(UserSchema, { isAuditable: true });
 
-// Then create the public schema by omitting the password from the full schema and adding the authorizations array
-export const PublicUserSchema = Type.Union([Type.Omit(UserSpec.fullSchema, ['password']), Type.Object({
-	authorizations: Type.Array(authorizationSchema)
-})]);
+// User Schema minus password plus authorizations
+// Union or Intersect didn't seem to work as expected, so we're using a simple object
+export const PublicUserSchema = Type.Object({
+	email: Type.String({
+		title: 'Email',
+		format: 'email'
+	}),
+	firstName: Type.Optional(Type.String({
+		title: 'First Name'
+	})),
+	lastName: Type.Optional(Type.String({
+		title: 'Last Name'
+	})),
+	displayName: Type.Optional(Type.String({
+		title: 'Display Name'
+	})),
+	authorizations: Type.Optional(Type.Array(PublicAuthorizationSchema)),
+	_lastLoggedIn: Type.Optional(TypeboxIsoDate({ title: 'Last Login Date' })),
+	_lastPasswordChange: Type.Optional(TypeboxIsoDate({ title: 'Last Password Change Date' })),
+});
