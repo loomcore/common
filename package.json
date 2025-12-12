@@ -1,6 +1,6 @@
 {
   "name": "@loomcore/common",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "private": false,
   "description": "Loom Core Models- common models, interfaces, types, and utils for Loom Core. All things common to both api and client apps.",
   "scripts": {
