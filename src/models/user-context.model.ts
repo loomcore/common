@@ -1,4 +1,4 @@
-import { IUser, UserSchema } from './user.model.js';
+import { IUser, PublicUserSpec, UserSchema, UserSpec } from './user.model.js';
 import { Type } from '@sinclair/typebox';
 import { PublicUserSchema } from './user.model.js';
 import { entityUtils } from '../utils/entity.utils.js';
@@ -18,14 +18,14 @@ export const EmptyUserContext: IUserContext = {
 let _systemUserContext: IUserContext | null = null;
 
 export const UserContextSchema = Type.Object({
-  user: Type.Intersect([EntitySchema, AuditableSchema, UserSchema]),
+  user: UserSpec.fullSchema,
   _orgId: Type.Optional(Type.String())
 });
 
 export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema);
 
 export const PublicUserContextSchema = Type.Object({
-  user: Type.Intersect([EntitySchema, AuditableSchema, PublicUserSchema]),
+  user: PublicUserSpec.fullSchema,
   _orgId: Type.Optional(Type.String())
 });
 
