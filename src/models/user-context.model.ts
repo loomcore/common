@@ -1,17 +1,14 @@
-import { IUser, PublicUserSpec, UserSchema, UserSpec } from './user.model.js';
+import { IUserOut, PublicUserSpec, UserSpec } from './user.model.js';
 import { Type } from '@sinclair/typebox';
-import { PublicUserSchema } from './user.model.js';
 import { entityUtils } from '../utils/entity.utils.js';
-import { EntitySchema } from './entity.model.js';
-import { AuditableSchema } from './auditable.model.js';
 
 export interface IUserContext {
-  user: IUser;
+  user: IUserOut;
   _orgId?: string;
 }
 
 export const EmptyUserContext: IUserContext = {
-  user: {} as IUser,
+  user: {} as IUserOut,
   _orgId: undefined
 }
 
@@ -43,16 +40,11 @@ export function initializeSystemUserContext(systemEmail: string, metaOrgId: stri
       lastName: 'User',
       displayName: 'System User',
       email: systemEmail,
-      password: '',
       authorizations: [{
         _id: 'system-authorization',
         _orgId: metaOrgId,
         role: 'system',
         feature: 'system',
-        _created: new Date(),
-        _createdBy: 'system',
-        _updated: new Date(),
-        _updatedBy: 'system',
       }],
       _created: new Date(),
       _createdBy: 'system',
