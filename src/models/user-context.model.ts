@@ -2,7 +2,7 @@ import { IUser, PublicUserSpec, UserSpec } from './user.model.js';
 import { Type } from '@sinclair/typebox';
 import { entityUtils } from '../utils/entity.utils.js';
 import { IOrganization, OrganizationSpec } from './organization.model.js';
-import { IUserContextAuthorization, UserContextAuthorizationSpec } from './user-context-authorization.js';
+import { IUserContextAuthorization, UserContextAuthorizationSpec } from './user-context-authorization.model.js';
 
 export interface IUserContext {
   user: IUser;
@@ -42,10 +42,11 @@ export function initializeSystemUserContext(systemEmail: string, metaOrg: IOrgan
     user: {
       _id: 'system',
       _orgId: metaOrg?._id,
+      email: systemEmail,
       firstName: 'System',
       lastName: 'User',
       displayName: 'System User',
-      email: systemEmail,
+      password: 'systemPassword',
       _created: new Date(),
       _createdBy: 'system',
       _updated: new Date(),
