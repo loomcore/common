@@ -1,4 +1,4 @@
-import {IAuditable} from './auditable.model.js';
+import { IAuditable } from './auditable.model.js';
 import { Type, Static } from '@sinclair/typebox';
 import { entityUtils } from '../utils/index.js';
 
@@ -14,6 +14,9 @@ export interface IOrganization extends IAuditable {
 
 // Organization-specific properties schema
 export const OrganizationSchema = Type.Object({
+  _id: Type.String({
+    title: 'ID'
+  }),
   name: Type.String({
     title: 'Name'
   }),

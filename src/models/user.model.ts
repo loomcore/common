@@ -4,20 +4,15 @@ import { IEntity } from './entity.model.js';
 import { Type } from '@sinclair/typebox';
 import { entityUtils } from '../utils/entity.utils.js';
 import { TypeCompiler } from '@sinclair/typebox/compiler';
-import { IAuthorizationOut, PublicAuthorizationSchema } from './authorization.model.js';
 
-
-export interface IUserBase extends IEntity, IAuditable {
+export interface IUser extends IEntity, IAuditable {
 	email: string;
 	firstName?: string;
 	lastName?: string;
 	displayName?: string;
+	password: string;
 	_lastLoggedIn?: Date;
 	_lastPasswordChange?: Date;
-}
-
-export interface IUserIn extends IUserBase {
-	password?: string;
 }
 
 export const UserPasswordSchema = Type.Object({
@@ -31,7 +26,7 @@ export const UserPasswordSchema = Type.Object({
 // Create a validator for just the password schema
 export const passwordValidator = TypeCompiler.Compile(UserPasswordSchema);
 
-export const UserSchemaBase = Type.Object({
+export const UserSchema = Type.Object({
 	email: Type.String({
 		title: 'Email',
 		format: 'email'
@@ -45,28 +40,13 @@ export const UserSchemaBase = Type.Object({
 	displayName: Type.Optional(Type.String({
 		title: 'Display Name'
 	})),
+	password: UserPasswordSchema.properties.password,
 	_lastLoggedIn: Type.Optional(TypeboxIsoDate({ title: 'Last Login Date' })),
 	_lastPasswordChange: Type.Optional(TypeboxIsoDate({ title: 'Last Password Change Date' })),
 });
 
-export const UserSchema = Type.Composite([
-	UserSchemaBase,
-	Type.Object({
-		password: UserPasswordSchema.properties.password,
-	})],);
-
-// Create the model spec first
 export const UserSpec = entityUtils.getModelSpec(UserSchema, { isAuditable: true });
 
-export interface IUserOut extends IUserBase {
-	authorizations?: IAuthorizationOut[];
-}
-
-export const PublicUserSchema = Type.Composite([
-	UserSchemaBase,
-	Type.Object({
-		authorizations: Type.Optional(Type.Array(PublicAuthorizationSchema, { title: 'Authorizations' })),
-	})],
-);
+export const PublicUserSchema = Type.Omit(UserSchema, ['password']);
 
 export const PublicUserSpec = entityUtils.getModelSpec(PublicUserSchema, { isAuditable: true });
