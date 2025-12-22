@@ -1,24 +1,18 @@
-import { TSchema, TString, TNumber, Type } from '@sinclair/typebox';
 
-export interface IEntity<TId extends string | number = string> {
-  _id: TId;
-  _orgId?: TId;
+import { Type } from '@sinclair/typebox';
+import { AppId } from '../types/app.types.js';
+import { IdSchema } from '../validation/id-schema.provider.js';
+
+export interface IEntity {
+  _id: AppId;
+  _orgId?: AppId;
 }
 
 /**
- * Schema definition for the IEntity interface to be used in validation and cleaning
+ * A TypeBox schema for the IEntity interface.
+ * The schema for the _id and _orgId properties is provided by the host application at build time.
  */
-export let EntitySchema: TSchema;
-
-export const createEntitySchema = (idType: TString | TNumber) => {
-  const orgIdType = idType.kind === 'String'
-    ? Type.String({ ...idType, title: 'Organization ID' })
-    : Type.Number({ ...idType, title: 'Organization ID' });
-
-  EntitySchema = Type.Object({
-    _id: idType,
-    _orgId: Type.Optional(orgIdType)
-  });
-
-  return EntitySchema;
-}
+export const EntitySchema = Type.Object({
+  _id: IdSchema,
+  _orgId: Type.Optional(Type.Unsafe({ ...IdSchema, title: 'Organization ID' }))
+});
