@@ -3,6 +3,35 @@ import { TypeRegistry } from '@sinclair/typebox';
 import { Decimal as _Decimal } from 'decimal.js';
 import { Value } from '@sinclair/typebox/value';
 
+let idSchemaInstance: TSchema | undefined;
+
+/**
+ * Sets the global IdSchema for the application. This must be called once at application startup.
+ * It enforces a singleton pattern, throwing an error if called more than once.
+ * @param schema The TypeBox schema for the ID (e.g., Type.String() or Type.Number()).
+ */
+export const setIdSchema = (schema: TSchema) => {
+  if (idSchemaInstance) {
+    throw new Error('IdSchema has already been initialized and cannot be set again.');
+  }
+  if (!schema) {
+    throw new Error('Schema cannot be null or undefined.');
+  }
+  idSchemaInstance = schema;
+}
+
+/**
+ * Retrieves the initialized IdSchema.
+ * Throws an error if the schema has not been initialized by calling setIdSchema().
+ * @returns The global IdSchema.
+ */
+export const getIdSchema = () => {
+  if (!idSchemaInstance) {
+    throw new Error('IdSchema has not been initialized. Please call setIdSchema() at application startup.');
+  }
+  return idSchemaInstance;
+}
+
 // Date-time transform utility functions
 export function TypeboxIsoDate(options: object = {}) {
   const dateTransform = Type.Transform(Type.String({ format: 'date-time', ...options }))
