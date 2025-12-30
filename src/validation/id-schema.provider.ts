@@ -1,4 +1,4 @@
-import { Type } from '@sinclair/typebox';
+import { TSchema, Type } from '@sinclair/typebox';
 
 /**
  * This file provides a hook for the host application to provide a concrete TypeBox schema for entity IDs.
@@ -6,8 +6,12 @@ import { Type } from '@sinclair/typebox';
  */
 
 // The default, flexible schema.
-export const IdSchema = Type.Union([
+export let IdSchema = Type.Union([
   Type.String({ title: 'ID' }),
   Type.Number({ title: 'ID', integer: true, minimum: 1 })
 ]);
 
+// Host app calls this during initialization to configure the concrete schema
+export function setIdSchema(schema: typeof IdSchema): void {
+  IdSchema = schema;
+}
