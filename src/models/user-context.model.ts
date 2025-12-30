@@ -36,11 +36,16 @@ export const PublicUserContextSpec = entityUtils.getModelSpec(PublicUserContextS
 
 // ******************************************************
 // functions to handle initializing the system user context - we need config and the metaOrgId to properly initialize
+import { getSystemUserId } from '../validation/index.js';
+
+// ... (other imports)
+
 // Factory function to create and cache the SystemUserContext
 export function initializeSystemUserContext(systemEmail: string, metaOrg: IOrganization | undefined): IUserContext {
+  const systemId = getSystemUserId();
   _systemUserContext = {
     user: {
-      _id: 'system',
+      _id: systemId,
       _orgId: metaOrg?._id,
       email: systemEmail,
       firstName: 'System',
@@ -48,12 +53,12 @@ export function initializeSystemUserContext(systemEmail: string, metaOrg: IOrgan
       displayName: 'System User',
       password: 'systemPassword',
       _created: new Date(),
-      _createdBy: 'system',
+      _createdBy: systemId,
       _updated: new Date(),
-      _updatedBy: 'system',
+      _updatedBy: systemId,
     },
     authorizations: [{
-      _id: 'system-authorization',
+      _id: 'system-authorization', // This is a specific string key, should remain as is.
       _orgId: metaOrg?._id,
       role: 'system',
       feature: 'system'
