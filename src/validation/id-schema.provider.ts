@@ -8,6 +8,6 @@ import { Type } from '@sinclair/typebox';
 // The default, flexible schema.
 export const IdSchema = Type.Union([
   Type.String({ title: 'ID' }),
-  Type.Number({ title: 'ID' })
+  Type.Number({ title: 'ID', integer: true, minimum: 1 })
 ]);
 
