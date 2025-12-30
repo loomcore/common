@@ -1,9 +1,11 @@
-import { IAuditable } from './auditable.model.js';
+import { IAuditable, AuditableSchema } from './auditable.model.js';
 import { Type, Static } from '@sinclair/typebox';
 import { entityUtils } from '../utils/index.js';
+import { AppId } from '../types/app.types.js';
+import { getIdSchema } from '../validation/index.js';
 
 export interface IOrganization extends IAuditable {
-  _id: string;
+  _id: AppId;
   name: string;
   code: string;
   description?: string;
@@ -13,10 +15,9 @@ export interface IOrganization extends IAuditable {
 }
 
 // Organization-specific properties schema
+const idSchema = getIdSchema();
 export const OrganizationSchema = Type.Object({
-  _id: Type.String({
-    title: 'ID'
-  }),
+  _id: idSchema,
   name: Type.String({
     title: 'Name'
   }),
@@ -39,7 +40,7 @@ export const OrganizationSchema = Type.Object({
 });
 
 // Create the model spec with auditable properties
-export const OrganizationSpec = entityUtils.getModelSpec(OrganizationSchema, { isAuditable: true });
+export const OrganizationSpec = entityUtils.getModelSpec(OrganizationSchema, { isAuditable: true, isEntity: false });
 
 
 

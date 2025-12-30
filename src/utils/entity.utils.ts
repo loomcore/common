@@ -29,16 +29,20 @@ function getValidator(schema: TSchema): ReturnType<typeof TypeCompiler.Compile> 
  */
 function getModelSpec<T extends TSchema>(
   schema: T,
-  options: { isAuditable?: boolean; } = {}
+  options: { isAuditable?: boolean; isEntity?: boolean; } = {}
 ): IModelSpec {
+  const { isAuditable = false, isEntity = true } = options;
   const partialSchema = Type.Partial(schema);
 
   // Create array of schemas to include in the full schema
   const schemasToIntersect = [];
   schemasToIntersect.push(schema);
-  schemasToIntersect.push(EntitySchema);
 
-  if (options.isAuditable) {
+  if (isEntity) {
+    schemasToIntersect.push(EntitySchema);
+  }
+
+  if (isAuditable) {
     schemasToIntersect.push(AuditableSchema);
   }
 
