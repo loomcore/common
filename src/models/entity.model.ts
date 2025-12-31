@@ -1,11 +1,11 @@
 
 import { Type } from '@sinclair/typebox';
-import { AppId } from '../types/app.types.js';
+import { AppIdType } from '../types/app.types.js';
 import { getIdSchema } from '../validation/typebox-extensions.js';
 
 export interface IEntity {
-  _id: AppId;
-  _orgId?: AppId;
+  _id: AppIdType;
+  _orgId?: AppIdType;
 }
 
 /**

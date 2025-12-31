@@ -2,10 +2,10 @@ import { Type, Kind, TSchema, NumberOptions, ValueGuard, StaticEncode, StaticDec
 import { TypeRegistry } from '@sinclair/typebox';
 import { Decimal as _Decimal } from 'decimal.js';
 import { Value } from '@sinclair/typebox/value';
-import { AppId } from '../types/app.types.js';
+import { AppIdType } from '../types/app.types.js';
 
 let idSchemaInstance: TSchema | undefined;
-let systemUserId: AppId | undefined;
+let systemUserId: AppIdType | undefined;
 
 /**
  * Sets the global IdSchema for the application. This must be called once at application startup.
@@ -49,7 +49,7 @@ export const getIdSchema = () => {
  * Throws an error if the schema has not been initialized.
  * @returns The system user ID.
  */
-export const getSystemUserId = (): AppId => {
+export const getSystemUserId = (): AppIdType => {
   if (systemUserId === undefined) {
     throw new Error('SystemUser ID has not been initialized. Please call setIdSchema() at application startup.');
   }

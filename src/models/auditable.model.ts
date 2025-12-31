@@ -1,14 +1,14 @@
 import { Type } from '@sinclair/typebox';
-import { AppId } from '../types/app.types.js';
+import { AppIdType } from '../types/app.types.js';
 import { getIdSchema, TypeboxIsoDate } from '../validation/index.js';
 
 export interface IAuditable {
   _created: Date;
-  _createdBy: AppId;
+  _createdBy: AppIdType;
   _updated: Date;
-  _updatedBy: AppId;
+  _updatedBy: AppIdType;
   _deleted?: Date;
-  _deletedBy?: AppId;
+  _deletedBy?: AppIdType;
 }
 
 /**

@@ -1,11 +1,11 @@
 import { IAuditable, AuditableSchema } from './auditable.model.js';
 import { Type, Static } from '@sinclair/typebox';
 import { entityUtils } from '../utils/index.js';
-import { AppId } from '../types/app.types.js';
+import { AppIdType } from '../types/app.types.js';
 import { getIdSchema } from '../validation/index.js';
 
 export interface IOrganization extends IAuditable {
-  _id: AppId;
+  _id: AppIdType;
   name: string;
   code: string;
   description?: string;
