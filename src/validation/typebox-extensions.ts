@@ -50,7 +50,7 @@ export const getIdSchema = () => {
  * @returns The system user ID.
  */
 export const getSystemUserId = (): AppId => {
-  if (!systemUserId) {
+  if (systemUserId === undefined) {
     throw new Error('SystemUser ID has not been initialized. Please call setIdSchema() at application startup.');
   }
   return systemUserId;
