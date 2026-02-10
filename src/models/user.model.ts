@@ -4,13 +4,14 @@ import { IEntity } from './entity.model.js';
 import { Type } from '@sinclair/typebox';
 import { entityUtils } from '../utils/entity.utils.js';
 import { TypeCompiler } from '@sinclair/typebox/compiler';
+import { IPersonModel, personSchema } from './person.model.js';
 
 export interface IUser extends IEntity, IAuditable {
+	external_id: string | null;
 	email: string;
-	firstName?: string;
-	lastName?: string;
 	displayName?: string;
 	password: string;
+	person: IPersonModel;
 	_lastLoggedIn?: Date;
 	_lastPasswordChange?: Date;
 }
@@ -27,20 +28,16 @@ export const UserPasswordSchema = Type.Object({
 export const passwordValidator = TypeCompiler.Compile(UserPasswordSchema);
 
 export const UserSchema = Type.Object({
+	external_id: Type.Optional(Type.String()),
 	email: Type.String({
 		title: 'Email',
 		format: 'email'
 	}),
-	firstName: Type.Optional(Type.String({
-		title: 'First Name'
-	})),
-	lastName: Type.Optional(Type.String({
-		title: 'Last Name'
-	})),
 	displayName: Type.Optional(Type.String({
 		title: 'Display Name'
 	})),
 	password: UserPasswordSchema.properties.password,
+	person: personSchema,
 	_lastLoggedIn: Type.Optional(TypeboxIsoDate({ title: 'Last Login Date' })),
 	_lastPasswordChange: Type.Optional(TypeboxIsoDate({ title: 'Last Password Change Date' })),
 });
