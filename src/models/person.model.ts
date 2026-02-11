@@ -3,15 +3,15 @@ import { entityUtils } from "@loomcore/common/utils";
 import { Type } from "@sinclair/typebox";
 
 export interface IPersonModel extends IEntity, IAuditable {
-    externalId: string | null;
+    externalId?: string;
     firstName: string;
-    middleName: string | null;
+    middleName?: string;
     lastName: string;
     isAgent: boolean;
     isClient: boolean;
     isEmployee: boolean;
-    dateOfBirth: Date | null;
-    extendedTypes: number;
+    dateOfBirth?: Date;
+    extendedTypes?: number;
 }
 
 export const personSchema = Type.Object({
@@ -23,7 +23,7 @@ export const personSchema = Type.Object({
     isClient: Type.Boolean(),
     isEmployee: Type.Boolean(),
     dateOfBirth: Type.Optional(Type.String()),
-    extendedTypes: Type.Number(),
+    extendedTypes: Type.Optional(Type.Number()),
 });
 
 export const personModelSpec = entityUtils.getModelSpec(personSchema, { isAuditable: true });
