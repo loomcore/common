@@ -8,6 +8,9 @@ export * from './login-response.model.js';
 export * from './token-response.model.js';
 export * from './auditable.model.js';
 export * from './query-options.model.js';
+export * from './person.model.js';
+export * from './phone-number.model.js';
+export * from './email-address.model.js';
 
 // Export all interfaces
 export * from './address.interface.js';
