@@ -7,7 +7,7 @@ import { TypeCompiler } from '@sinclair/typebox/compiler';
 import { AppIdType } from '../types/app.types.js';
 
 export interface IUser extends IEntity, IAuditable {
-	externalId: string | null;
+	externalId?: string;
 	email: string;
 	displayName?: string;
 	password: string;

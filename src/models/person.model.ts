@@ -1,6 +1,7 @@
 import type { IAuditable, IEntity } from "@loomcore/common/models";
 import { entityUtils } from "@loomcore/common/utils";
 import { Type } from "@sinclair/typebox";
+import { TypeboxIsoDate } from "../validation/typebox-extensions.js";
 
 export interface IPersonModel extends IEntity, IAuditable {
     externalId?: string;
@@ -22,7 +23,7 @@ export const personSchema = Type.Object({
     isAgent: Type.Boolean(),
     isClient: Type.Boolean(),
     isEmployee: Type.Boolean(),
-    dateOfBirth: Type.Optional(Type.String()),
+    dateOfBirth: Type.Optional(TypeboxIsoDate({ title: 'Date of Birth' })),
     extendedTypes: Type.Optional(Type.Number()),
 });
 
