@@ -36,11 +36,12 @@ function getModelSpec<T extends TSchema>(
 
   // Create array of schemas to include in the full schema
   const schemasToIntersect = [];
-  schemasToIntersect.push(schema);
 
   if (isEntity) {
     schemasToIntersect.push(EntitySchema);
   }
+
+  schemasToIntersect.push(schema);
 
   if (isAuditable) {
     schemasToIntersect.push(AuditableSchema);
