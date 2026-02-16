@@ -6,6 +6,8 @@ import { getIdSchema } from '../validation/typebox-extensions.js';
 export interface IEntity {
   _id: AppIdType;
   _orgId?: AppIdType;
+  // Typebox shouldn't ever care about data from joins.
+  _joinData?: any;
 }
 
 /**
