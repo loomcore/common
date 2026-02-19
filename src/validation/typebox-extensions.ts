@@ -60,7 +60,11 @@ export const getSystemUserId = (): AppIdType => {
 export function TypeboxIsoDate(options: object = {}) {
   const dateTransform = Type.Transform(Type.String({ format: 'date-time', ...options }))
     .Decode(value => new Date(value))
-    .Encode(value => value.toISOString());
+    .Encode(value => {
+      const date = new Date(value);
+      date.setUTCHours(0, 0, 0, 0);
+      return date.toISOString();
+    });
   return dateTransform;
 }
 
@@ -73,6 +77,8 @@ export function TypeboxDate(options: object = {}) {
       return date;
     })
     .Encode(value => {
+      const date = new Date(value);
+      date.setUTCHours(0, 0, 0, 0);
       return value.toISOString().split('T')[0];
     });
   return dateTransform;
