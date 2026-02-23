@@ -17,7 +17,6 @@ import { IModelSpec } from '../models/model-spec.interface.js';
  */
 function getValidator(schema: TSchema): ReturnType<typeof TypeCompiler.Compile> {
   const validator = TypeCompiler.Compile(schema);
-  // console.log(JSON.stringify(schema, null, 2)); // uncomment to see the actual json-schema for each model 
   return validator;
 }
 

@@ -29,6 +29,7 @@ export const passwordValidator = TypeCompiler.Compile(UserPasswordSchema);
 
 const idSchema = getIdSchema();
 export const UserSchema = Type.Object({
+	_id: idSchema,
 	externalId: Type.Optional(Type.String()),
 	email: Type.String({
 		title: 'Email',
