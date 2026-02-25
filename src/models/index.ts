@@ -13,7 +13,7 @@ export * from './phone-number.model.js';
 export * from './email-address.model.js';
 
 // Export all interfaces
-export * from './address.interface.js';
+export * from './address.model.js';
 export * from './api-response.interface.js';
 export * from './auth.state.interface.js';
 export * from './error.interface.js';
