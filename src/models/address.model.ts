@@ -3,7 +3,7 @@ import { getIdSchema } from "../validation/index.js";
 import { IAuditable, IEntity } from "./index.js";
 import { entityUtils } from "../utils/entity.utils.js";
 
-export interface IAddress extends IEntity, IAuditable {
+export interface IAddressModel extends IEntity, IAuditable {
 	address1?: string;
 	address2?: string;
 	address3?: string;
