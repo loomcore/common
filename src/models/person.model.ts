@@ -12,6 +12,7 @@ export interface IPersonModel extends IEntity, IAuditable {
     isClient: boolean;
     isEmployee: boolean;
     dateOfBirth?: Date;
+    socialSecurityNumber?: number;
     extendedTypes?: number;
 }
 
@@ -27,7 +28,21 @@ export const personSchema = Type.Object({
     isClient: Type.Boolean(),
     isEmployee: Type.Boolean(),
     dateOfBirth: Type.Optional(TypeboxIsoDate({ title: 'Date of Birth' })),
+    socialSecurityNumber: Type.Optional(Type.Number()),
     extendedTypes: Type.Optional(Type.Number()),
 });
 
-export const personModelSpec = entityUtils.getModelSpec(personSchema, { isAuditable: true });
+export const publicPersonSchema = Type.Transform(personSchema)
+    .Decode((person) => {
+        const shortSsn = person.socialSecurityNumber ? person.socialSecurityNumber.toString().slice(-4) : undefined;
+        delete person.socialSecurityNumber;
+        return {
+            ...person,
+            last4ssn: shortSsn,
+        };
+    })
+    .Encode((person) => {
+        return person;
+    });
+
+export const personModelSpec = entityUtils.getModelSpec(publicPersonSchema, { isAuditable: true });
