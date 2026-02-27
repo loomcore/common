@@ -15,9 +15,7 @@ export interface IOrganization extends IAuditable {
 }
 
 // Organization-specific properties schema
-const idSchema = getIdSchema();
 export const OrganizationSchema = Type.Object({
-  _id: idSchema,
   name: Type.String({
     title: 'Name'
   }),

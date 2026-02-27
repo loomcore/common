@@ -15,10 +15,7 @@ export interface IAddressModel extends IEntity, IAuditable {
 	formattedAddress?: string;
 }
 
-const idSchema = getIdSchema();
-
 export const addressSchema = Type.Object({
-	_id: idSchema,
 	address1: Type.Optional(Type.String()),
 	address2: Type.Optional(Type.String()),
 	address3: Type.Optional(Type.String()),

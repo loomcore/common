@@ -9,9 +9,7 @@ export interface IPhoneNumberModel extends IEntity, IAuditable {
     isDefault: boolean;
 }
 
-const idSchema = getIdSchema();
 export const phoneNumberSchema = Type.Object({
-    _id: idSchema,
     phoneNumber: Type.String(),
     phoneNumberType: Type.String(),
     isDefault: Type.Boolean(),

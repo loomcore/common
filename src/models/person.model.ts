@@ -16,10 +16,7 @@ export interface IPersonModel extends IEntity, IAuditable {
     extendedTypes?: number;
 }
 
-const idSchema = getIdSchema();
-
 export const personSchema = Type.Object({
-    _id: idSchema,
     externalId: Type.Optional(Type.String()),
     firstName: Type.String(),
     middleName: Type.Optional(Type.String()),
