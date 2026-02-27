@@ -28,7 +28,7 @@ export const UserContextSchema = Type.Object({
   organization: OrganizationSpec.fullSchema
 });
 
-export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema);
+export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema, { isEntity: false });
 
 export const PublicUserContextSchema = Type.Object({
   user: PublicUserSpec.fullSchema,
@@ -37,7 +37,7 @@ export const PublicUserContextSchema = Type.Object({
   organization: OrganizationSpec.fullSchema
 });
 
-export const PublicUserContextSpec = entityUtils.getModelSpec(PublicUserContextSchema);
+export const PublicUserContextSpec = entityUtils.getModelSpec(PublicUserContextSchema, { isEntity: false });
 
 // ******************************************************
 // functions to handle initializing the system user context - we need config and the metaOrgId to properly initialize

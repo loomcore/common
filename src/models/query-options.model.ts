@@ -73,7 +73,7 @@ export const QueryOptionsSchema = Type.Object({
 /**
  * Model spec for QueryOptions
  */
-export const QueryOptionsSpec = entityUtils.getModelSpec(QueryOptionsSchema);
+export const QueryOptionsSpec = entityUtils.getModelSpec(QueryOptionsSchema, { isEntity: false });
 
 /**
  * Default query options that match the old QueryOptions class defaults

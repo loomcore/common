@@ -19,4 +19,4 @@ export const LoginResponseSchema = Type.Object({
 /**
  * Model spec for LoginResponse
  */
-export const LoginResponseSpec = entityUtils.getModelSpec(LoginResponseSchema);
+export const LoginResponseSpec = entityUtils.getModelSpec(LoginResponseSchema, { isEntity: false });

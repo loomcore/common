@@ -19,4 +19,4 @@ export const TokenResponseSchema = Type.Object({
 /**
  * Model spec for TokenResponse
  */
-export const TokenResponseSpec = entityUtils.getModelSpec(TokenResponseSchema);
+export const TokenResponseSpec = entityUtils.getModelSpec(TokenResponseSchema, { isEntity: false });

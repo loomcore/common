@@ -14,4 +14,4 @@ export const UserContextAuthorizationSchema = Type.Object({
     config: Type.Optional(Type.Any())
 });
 
-export const UserContextAuthorizationSpec = entityUtils.getModelSpec(UserContextAuthorizationSchema);
+export const UserContextAuthorizationSpec = entityUtils.getModelSpec(UserContextAuthorizationSchema, { isEntity: false });
