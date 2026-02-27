@@ -32,17 +32,11 @@ export const personSchema = Type.Object({
     extendedTypes: Type.Optional(Type.Number()),
 });
 
-export const publicPersonSchema = Type.Transform(personSchema)
-    .Decode((person) => {
-        const shortSsn = person.socialSecurityNumber ? person.socialSecurityNumber.toString().slice(-4) : undefined;
-        delete person.socialSecurityNumber;
-        return {
-            ...person,
-            last4ssn: shortSsn,
-        };
-    })
-    .Encode((person) => {
-        return person;
-    });
+export const personPublicSchema = Type.Intersect([
+    Type.Omit(personSchema, ['socialSecurityNumber']),
+    Type.Object({
+        last4ssn: Type.Optional(Type.String()),
+    }),
+]);
 
-export const personModelSpec = entityUtils.getModelSpec(publicPersonSchema, { isAuditable: true });
+export const personModelSpec = entityUtils.getModelSpec(personPublicSchema, { isAuditable: true });

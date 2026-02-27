@@ -3,15 +3,18 @@ import { Type } from '@sinclair/typebox';
 import { entityUtils } from '../utils/entity.utils.js';
 import { IOrganization, OrganizationSpec } from './organization.model.js';
 import { IUserContextAuthorization, UserContextAuthorizationSpec } from './user-context-authorization.model.js';
+import { IPersonModel, personModelSpec } from './index.js';
 
 export interface IUserContext {
   user: IUser;
+  person?: IPersonModel;
   authorizations: IUserContextAuthorization[];
   organization?: IOrganization;
 }
 
 export const EmptyUserContext: IUserContext = {
   user: {} as IUser,
+  person: undefined,
   authorizations: [],
   organization: undefined
 }
@@ -20,6 +23,7 @@ let _systemUserContext: IUserContext | null = null;
 
 export const UserContextSchema = Type.Object({
   user: UserSpec.fullSchema,
+  person: Type.Optional(personModelSpec.fullSchema),
   authorizations: Type.Array(UserContextAuthorizationSpec.fullSchema),
   organization: OrganizationSpec.fullSchema
 });
@@ -28,6 +32,7 @@ export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema);
 
 export const PublicUserContextSchema = Type.Object({
   user: PublicUserSpec.fullSchema,
+  person: Type.Optional(personModelSpec.fullSchema),
   authorizations: Type.Array(UserContextAuthorizationSpec.fullSchema),
   organization: OrganizationSpec.fullSchema
 });
