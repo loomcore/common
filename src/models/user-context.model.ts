@@ -3,7 +3,7 @@ import { Type } from '@sinclair/typebox';
 import { entityUtils } from '../utils/entity.utils.js';
 import { IOrganization, OrganizationSpec } from './organization.model.js';
 import { IUserContextAuthorization, UserContextAuthorizationSpec } from './user-context-authorization.model.js';
-import { IPersonModel, personModelSpec } from './index.js';
+import { IPersonModel, personModelSpec } from './person.model.js';
 
 export interface IUserContext {
   user: IUser;
