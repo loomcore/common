@@ -12,7 +12,9 @@ export interface IPersonModel extends IEntity, IAuditable {
     isClient: boolean;
     isEmployee: boolean;
     dateOfBirth?: Date;
-    socialSecurityNumber?: number;
+    // Social Security Number
+    // Note: this is a string because a ssn can begin with a zero
+    ssn?: string;
     extendedTypes?: number;
 }
 
@@ -25,12 +27,12 @@ export const personSchema = Type.Object({
     isClient: Type.Boolean(),
     isEmployee: Type.Boolean(),
     dateOfBirth: Type.Optional(TypeboxIsoDate({ title: 'Date of Birth' })),
-    socialSecurityNumber: Type.Optional(Type.Number()),
+    ssn: Type.Optional(Type.String()),
     extendedTypes: Type.Optional(Type.Number()),
 });
 
 export const personPublicSchema = Type.Intersect([
-    Type.Omit(personSchema, ['socialSecurityNumber']),
+    Type.Omit(personSchema, ['ssn']),
     Type.Object({
         last4ssn: Type.Optional(Type.String()),
     }),
