@@ -1,7 +1,7 @@
 import type { IAuditable, IEntity } from "@loomcore/common/models";
 import { entityUtils } from "@loomcore/common/utils";
 import { Type } from "@sinclair/typebox";
-import { getIdSchema, TypeboxIsoDate } from "../validation/typebox-extensions.js";
+import { TypeboxIsoDate } from "../validation/typebox-extensions.js";
 
 export interface IPersonModel extends IEntity, IAuditable {
     externalId?: string;
@@ -18,7 +18,7 @@ export interface IPersonModel extends IEntity, IAuditable {
     extendedTypes?: number;
 }
 
-export const personSchema = Type.Object({
+export const privatePersonSchema = Type.Object({
     externalId: Type.Optional(Type.String()),
     firstName: Type.String(),
     middleName: Type.Optional(Type.String()),
@@ -31,11 +31,13 @@ export const personSchema = Type.Object({
     extendedTypes: Type.Optional(Type.Number()),
 });
 
-export const personPublicSchema = Type.Intersect([
-    Type.Omit(personSchema, ['ssn']),
+export const personSchema = Type.Intersect([
+    Type.Omit(privatePersonSchema, ['ssn']),
     Type.Object({
         last4ssn: Type.Optional(Type.String()),
     }),
 ]);
 
-export const personModelSpec = entityUtils.getModelSpec(personPublicSchema, { isAuditable: true });
+export const personModelSpec = entityUtils.getModelSpec(personSchema, { isAuditable: true });
+
+export const privatePersonModelSpec = entityUtils.getModelSpec(privatePersonSchema, { isAuditable: true });
