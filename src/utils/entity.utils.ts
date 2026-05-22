@@ -101,15 +101,20 @@ function getModelSpec<T extends TSchema>(
 
 /**
  * Validates data against a validator
- * @param validator The compiled TypeBox validator
+ * @param modelSpec The model specification
  * @param data The data to validate
- * @returns Validation result with errors if invalid
+ * @param isPartial Whether to use the partial validator, default is false
+ * @returns Validation errors if invalid or null if valid
  */
 function validate(
-  validator: ReturnType<typeof TypeCompiler.Compile>,
-  data: unknown
+  modelSpec: IModelSpec,
+  data: unknown,
+  isPartial: boolean = false,
 ): ValueError[] | null {
-  const valid = validator.Check(data);
+  const validator = isPartial ? modelSpec.partialValidator : modelSpec.validator;
+  const schema = isPartial ? modelSpec.partialSchema : modelSpec.fullSchema;
+  const decodedData = Value.Convert(schema, data);
+  const valid = validator.Check(decodedData);
 
   if (!valid) {
     const errors = [...validator.Errors(data)];
