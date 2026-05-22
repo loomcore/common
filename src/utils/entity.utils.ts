@@ -109,8 +109,8 @@ function getModelSpec<T extends TSchema>(
 function validate(
   modelSpec: IModelSpec,
   data: unknown,
-  validatorOverride?: ReturnType<typeof TypeCompiler.Compile>,
   isPartial: boolean = false,
+  validatorOverride?: ReturnType<typeof TypeCompiler.Compile>,
 ): ValueError[] | null {
   const validator = validatorOverride || (isPartial ? modelSpec.partialValidator : modelSpec.validator);
   const schema = isPartial ? modelSpec.partialSchema : modelSpec.fullSchema;
