@@ -1,8 +1,14 @@
-import { Type, Kind, TSchema, NumberOptions, ValueGuard, StaticEncode, StaticDecode } from '@sinclair/typebox';
-import { TypeRegistry } from '@sinclair/typebox';
-import { Decimal as _Decimal } from 'decimal.js';
-import { Value } from '@sinclair/typebox/value';
-import { AppIdType } from '../types/app.types.js';
+import {
+	Kind,
+	type NumberOptions,
+	type TSchema,
+	Type,
+	TypeRegistry,
+	ValueGuard,
+} from "@sinclair/typebox";
+import { Value } from "@sinclair/typebox/value";
+import { Decimal as _Decimal } from "decimal.js";
+import type { AppIdType } from "../types/app.types.js";
 
 let idSchemaInstance: TSchema | undefined;
 let systemUserId: AppIdType | undefined;
@@ -13,24 +19,26 @@ let systemUserId: AppIdType | undefined;
  * @param schema The TypeBox schema for the ID (e.g., Type.String() or Type.Number()).
  */
 export const setIdSchema = (schema: TSchema) => {
-  if (idSchemaInstance) {
-    throw new Error('IdSchema has already been initialized and cannot be set again.');
-  }
-  if (!schema) {
-    throw new Error('Schema cannot be null or undefined.');
-  }
-  idSchemaInstance = schema;
+	if (idSchemaInstance) {
+		throw new Error(
+			"IdSchema has already been initialized and cannot be set again.",
+		);
+	}
+	if (!schema) {
+		throw new Error("Schema cannot be null or undefined.");
+	}
+	idSchemaInstance = schema;
 
-  // Determine the system user ID based on the schema type
-  if (schema.type === 'string') {
-    systemUserId = 'system';
-  } else if (schema.type === 'number') {
-    systemUserId = 0;
-  } else {
-    // Fallback for union types or other complex schemas
-    systemUserId = 'system';
-  }
-}
+	// Determine the system user ID based on the schema type
+	if (schema.type === "string") {
+		systemUserId = "system";
+	} else if (schema.type === "number") {
+		systemUserId = 0;
+	} else {
+		// Fallback for union types or other complex schemas
+		systemUserId = "system";
+	}
+};
 
 /**
  * Retrieves the initialized IdSchema.
@@ -38,11 +46,13 @@ export const setIdSchema = (schema: TSchema) => {
  * @returns The global IdSchema.
  */
 export const getIdSchema = () => {
-  if (!idSchemaInstance) {
-    throw new Error('IdSchema has not been initialized. Please call setIdSchema() at application startup.');
-  }
-  return idSchemaInstance;
-}
+	if (!idSchemaInstance) {
+		throw new Error(
+			"IdSchema has not been initialized. Please call setIdSchema() at application startup.",
+		);
+	}
+	return idSchemaInstance;
+};
 
 /**
  * Retrieves the configured system user ID ('system' or 0).
@@ -50,65 +60,71 @@ export const getIdSchema = () => {
  * @returns The system user ID.
  */
 export const getSystemUserId = (): AppIdType => {
-  if (systemUserId === undefined) {
-    throw new Error('SystemUser ID has not been initialized. Please call setIdSchema() at application startup.');
-  }
-  return systemUserId;
-}
+	if (systemUserId === undefined) {
+		throw new Error(
+			"SystemUser ID has not been initialized. Please call setIdSchema() at application startup.",
+		);
+	}
+	return systemUserId;
+};
 
 // Date-time transform utility functions
 export function TypeboxIsoDate(options: object = {}) {
-  const dateTransform = Type.Transform(Type.String({ format: 'date-time', ...options }))
-    .Decode(value => new Date(value))
-    .Encode(value => {
-      if (value instanceof Date) return value.toISOString();
-      if (typeof value === 'string') return value;
-      if (typeof value === 'number') return new Date(value).toISOString();
-      return value;
-    });
-  return dateTransform;
+	const dateTransform = Type.Transform(
+		Type.String({ format: "date-time", ...options }),
+	)
+		.Decode((value) => new Date(value))
+		.Encode((value) => {
+			if (value instanceof Date) return value.toISOString();
+			if (typeof value === "string") return value;
+			if (typeof value === "number") return new Date(value).toISOString();
+			return value;
+		});
+	return dateTransform;
 }
 
 // Date transform utility functions
 export function TypeboxDate(options: object = {}) {
-  const dateTransform = Type.Transform(Type.String({ format: 'date', ...options }))
-    .Decode(value => {
-      const date = new Date(value);
-      date.setUTCHours(0, 0, 0, 0);
-      return date;
-    })
-    .Encode(value => {
-      if (value instanceof Date) {
-        value.setUTCHours(0, 0, 0, 0);
-        return value.toISOString();
-      }
-      if (typeof value === 'string') return value;
-      if (typeof value === 'number') {
-        const date = new Date(value);
-        date.setUTCHours(0, 0, 0, 0);
-        return date.toISOString();
-      }
-      return value;
-    });
-  return dateTransform;
+	const dateTransform = Type.Transform(
+		Type.String({ format: "date", ...options }),
+	)
+		.Decode((value) => {
+			const date = new Date(value);
+			date.setUTCHours(0, 0, 0, 0);
+			return date;
+		})
+		.Encode((value) => {
+			if (value instanceof Date) {
+				value.setUTCHours(0, 0, 0, 0);
+				return value.toISOString();
+			}
+			if (typeof value === "string") return value;
+			if (typeof value === "number") {
+				const date = new Date(value);
+				date.setUTCHours(0, 0, 0, 0);
+				return date.toISOString();
+			}
+			return value;
+		});
+	return dateTransform;
 }
 
 // ObjectId transform utility functions
 export function TypeboxObjectId(options: object = {}) {
-  // Use string with objectid format instead of transform
-  return Type.String({
-    format: 'objectid',
-    ...options
-  });
+	// Use string with objectid format instead of transform
+	return Type.String({
+		format: "objectid",
+		...options,
+	});
 }
 
 // -----------------------------------------------------------------
 // Type: Decimal - A custom type for handling decimal numbers with precise validation
 // -----------------------------------------------------------------
 export interface TDecimal extends TSchema, NumberOptions {
-  [Kind]: 'Decimal'
-  type: 'number',
-  static: number
+	[Kind]: "Decimal";
+	type: "number";
+	static: number;
 }
 
 /**
@@ -118,19 +134,25 @@ export interface TDecimal extends TSchema, NumberOptions {
  * @returns A TypeBox schema configured for decimal values
  */
 export function TypeboxDecimal(options: NumberOptions = {}): TDecimal {
-  return { ...options, [Kind]: 'Decimal', type: 'number' } as TDecimal;
+	return { ...options, [Kind]: "Decimal", type: "number" } as TDecimal;
 }
 
 // Register the custom type with TypeBox's validation system
-TypeRegistry.Set<TDecimal>('Decimal', (schema: TDecimal, value: unknown) => {
-  return (
-    (ValueGuard.IsNumber(value)) &&
-    (ValueGuard.IsNumber(schema.multipleOf) ? new _Decimal(value).mod(new _Decimal(schema.multipleOf)).equals(0) : true) &&
-    (ValueGuard.IsNumber(schema.exclusiveMaximum) ? value < schema.exclusiveMaximum : true) &&
-    (ValueGuard.IsNumber(schema.exclusiveMinimum) ? value > schema.exclusiveMinimum : true) &&
-    (ValueGuard.IsNumber(schema.maximum) ? value <= schema.maximum : true) &&
-    (ValueGuard.IsNumber(schema.minimum) ? value >= schema.minimum : true)
-  );
+TypeRegistry.Set<TDecimal>("Decimal", (schema: TDecimal, value: unknown) => {
+	return (
+		ValueGuard.IsNumber(value) &&
+		(ValueGuard.IsNumber(schema.multipleOf)
+			? new _Decimal(value).mod(new _Decimal(schema.multipleOf)).equals(0)
+			: true) &&
+		(ValueGuard.IsNumber(schema.exclusiveMaximum)
+			? value < schema.exclusiveMaximum
+			: true) &&
+		(ValueGuard.IsNumber(schema.exclusiveMinimum)
+			? value > schema.exclusiveMinimum
+			: true) &&
+		(ValueGuard.IsNumber(schema.maximum) ? value <= schema.maximum : true) &&
+		(ValueGuard.IsNumber(schema.minimum) ? value >= schema.minimum : true)
+	);
 });
 
 // -----------------------------------------------------------------
@@ -144,10 +166,10 @@ TypeRegistry.Set<TDecimal>('Decimal', (schema: TDecimal, value: unknown) => {
  * @returns A TypeBox schema for monetary values
  */
 export function TypeboxMoney(options: NumberOptions = {}): TDecimal {
-  return TypeboxDecimal({
-    multipleOf: 0.01,
-    ...options
-  });
+	return TypeboxDecimal({
+		multipleOf: 0.01,
+		...options,
+	});
 }
 
 /**
@@ -156,11 +178,11 @@ export function TypeboxMoney(options: NumberOptions = {}): TDecimal {
  * @returns A TypeBox schema for percentage values
  */
 export function TypeboxPercentage(options: NumberOptions = {}): TDecimal {
-  return TypeboxDecimal({
-    minimum: 0,
-    maximum: 100,
-    ...options
-  });
+	return TypeboxDecimal({
+		minimum: 0,
+		maximum: 100,
+		...options,
+	});
 }
 
 /**
@@ -169,28 +191,28 @@ export function TypeboxPercentage(options: NumberOptions = {}): TDecimal {
  */
 // todo: move this into an actual test file following our testing patterns - in a __tests__ folder using vitest, etc, etc
 export function testMoneyType(): void {
-  const schema = Type.Object({
-    price: TypeboxMoney({ minimum: 0 })
-  });
+	const schema = Type.Object({
+		price: TypeboxMoney({ minimum: 0 }),
+	});
 
-  // Test valid case
-  const valid = Value.Check(schema, { price: 39.99 });
-  console.log('39.99 is valid:', valid);
+	// Test valid case
+	const valid = Value.Check(schema, { price: 39.99 });
+	console.log("39.99 is valid:", valid);
 
-  // Test another valid case
-  const valid2 = Value.Check(schema, { price: 100.00 });
-  console.log('100.00 is valid:', valid2);
+	// Test another valid case
+	const valid2 = Value.Check(schema, { price: 100.0 });
+	console.log("100.00 is valid:", valid2);
 
-  // Test invalid case (price not multiple of 0.01)
-  const invalid = Value.Check(schema, { price: 39.999 });
-  console.log('39.999 is valid:', invalid);
+	// Test invalid case (price not multiple of 0.01)
+	const invalid = Value.Check(schema, { price: 39.999 });
+	console.log("39.999 is valid:", invalid);
 
-  // Test validation errors
-  if (!invalid) {
-    const errors = [...Value.Errors(schema, { price: 39.999 })];
-    console.log('Validation errors:', errors);
-  }
+	// Test validation errors
+	if (!invalid) {
+		const errors = [...Value.Errors(schema, { price: 39.999 })];
+		console.log("Validation errors:", errors);
+	}
 }
 
 // Uncomment to run the test during development
-// testMoneyType(); 
+// testMoneyType();
