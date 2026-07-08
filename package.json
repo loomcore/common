@@ -13,7 +13,7 @@
     "push": "git push",
     "gar-login": "npx --yes google-artifactregistry-auth",
     "publishMe": "npm publish --access public",
-    "pub": "npm-run-all -s add commit patch build push publishMe",
+    "pub": "npm-run-all -s patch build push publishMe",
     "auth-and-pub": "npm-run-all -s add commit patch build push gar-login publishMe",
     "test": "cross-env NODE_ENV=test vitest run",
     "test:ci": "cross-env NODE_ENV=test vitest run --reporter=json --outputFile=test-results.json",
