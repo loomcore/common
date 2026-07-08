@@ -17,8 +17,8 @@ export interface IUser extends IEntity, IAuditable {
 export const UserPasswordSchema = Type.Object({
 	password: Type.String({
 		title: "Password",
-		minLength: 6,
-		maxLength: 30,
+		minLength: 8,
+		maxLength: 64,
 	}),
 });
 
