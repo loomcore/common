@@ -3,5 +3,5 @@ export interface IPagedResult<T> {
 	total?: number;
 	page?: number;
 	pageSize?: number;
-  totalPages?: number;
+	totalPages?: number;
 }

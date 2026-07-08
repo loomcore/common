@@ -1,47 +1,59 @@
-import { IAuditable, AuditableSchema } from './auditable.model.js';
-import { Type, Static } from '@sinclair/typebox';
-import { entityUtils } from '../utils/index.js';
-import { AppIdType } from '../types/app.types.js';
-import { getIdSchema } from '../validation/index.js';
+import { Type } from "@sinclair/typebox";
+import type { AppIdType } from "../types/app.types.js";
+import { entityUtils } from "../utils/index.js";
+import { getIdSchema } from "../validation/index.js";
+import type { IAuditable } from "./auditable.model.js";
 
 export interface IOrganization extends IAuditable {
-  _id: AppIdType;
-  name: string;
-  code: string;
-  description?: string;
-  status: number;
-  isMetaOrg: boolean;
-  authToken?: string;
+	_id: AppIdType;
+	name: string;
+	code?: string;
+	domain?: string;
+	description?: string;
+	status: number;
+	isMetaOrg: boolean;
+	authToken?: string;
 }
 
 const idSchema = getIdSchema();
 
 // Organization-specific properties schema
 export const OrganizationSchema = Type.Object({
-  _id: idSchema,
-  name: Type.String({
-    title: 'Name'
-  }),
-  code: Type.String({
-    title: 'Code'
-  }),
-  description: Type.Optional(Type.String({
-    title: 'Description'
-  })),
-  status: Type.Number({
-    title: 'Status'
-  }),
-  isMetaOrg: Type.Boolean({
-    title: 'Is Meta Organization',
-    default: false
-  }),
-  authToken: Type.Optional(Type.String({
-    title: 'Authentication Token'
-  }))
+	_id: idSchema,
+	name: Type.String({
+		title: "Name",
+	}),
+	code: Type.Optional(
+		Type.String({
+			title: "Code",
+		}),
+	),
+	domain: Type.Optional(
+		Type.String({
+			title: "Domain",
+		}),
+	),
+	description: Type.Optional(
+		Type.String({
+			title: "Description",
+		}),
+	),
+	status: Type.Number({
+		title: "Status",
+	}),
+	isMetaOrg: Type.Boolean({
+		title: "Is Meta Organization",
+		default: false,
+	}),
+	authToken: Type.Optional(
+		Type.String({
+			title: "Authentication Token",
+		}),
+	),
 });
 
 // Create the model spec with auditable properties
-export const OrganizationSpec = entityUtils.getModelSpec(OrganizationSchema, { isAuditable: true, isEntity: false });
-
-
-
+export const OrganizationSpec = entityUtils.getModelSpec(OrganizationSchema, {
+	isAuditable: true,
+	isEntity: false,
+});
