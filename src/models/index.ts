@@ -12,6 +12,7 @@ export * from "./geo-json.interface.js";
 export * from "./login-response.model.js";
 export * from "./model-spec.interface.js";
 export * from "./organization.model.js";
+export * from "./organization-domain.model.js";
 export * from "./paged-result.interface.js";
 export * from "./password-reset-token.interface.js";
 export * from "./phone-number.model.js";
