@@ -8,7 +8,6 @@ export interface IOrganization extends IAuditable {
 	_id: AppIdType;
 	name: string;
 	code?: string;
-	domain?: string;
 	description?: string;
 	status: number;
 	isMetaOrg: boolean;
@@ -26,11 +25,6 @@ export const OrganizationSchema = Type.Object({
 	code: Type.Optional(
 		Type.String({
 			title: "Code",
-		}),
-	),
-	domain: Type.Optional(
-		Type.String({
-			title: "Domain",
 		}),
 	),
 	description: Type.Optional(
