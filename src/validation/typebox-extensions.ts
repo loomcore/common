@@ -75,9 +75,12 @@ export function TypeboxIsoDate(options: object = {}) {
 	)
 		.Decode((value) => new Date(value))
 		.Encode((value) => {
-			if (value instanceof Date) return value.toISOString();
-			if (typeof value === "string") return value;
-			if (typeof value === "number") return new Date(value).toISOString();
+			if (value instanceof Date) return value.toISOString().slice(0, -1);
+			if (typeof value === "string" || typeof value === "number") {
+				const date = new Date(value);
+				date.setUTCHours(0, 0, 0, 0);
+				return date.toISOString().slice(0, -1);
+			}
 			return value;
 		});
 	return dateTransform;
@@ -96,13 +99,12 @@ export function TypeboxDate(options: object = {}) {
 		.Encode((value) => {
 			if (value instanceof Date) {
 				value.setUTCHours(0, 0, 0, 0);
-				return value.toISOString();
+				return value.toISOString().slice(0, -1);
 			}
-			if (typeof value === "string") return value;
-			if (typeof value === "number") {
+			if (typeof value === "string" || typeof value === "number") {
 				const date = new Date(value);
 				date.setUTCHours(0, 0, 0, 0);
-				return date.toISOString();
+				return date.toISOString().slice(0, -1);
 			}
 			return value;
 		});
