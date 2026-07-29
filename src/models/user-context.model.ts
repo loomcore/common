@@ -2,20 +2,16 @@ import { Type } from "@sinclair/typebox";
 import { entityUtils } from "../utils/entity.utils.js";
 import { type IOrganization, OrganizationSpec } from "./organization.model.js";
 import { type IUser, PublicUserSpec, UserSpec } from "./user.model.js";
-import {
-	type IUserContextAuthorization,
-	UserContextAuthorizationSpec,
-} from "./user-context-authorization.model.js";
 
 export interface IUserContext {
 	user: IUser;
-	authorizations: IUserContextAuthorization[];
+	features: string[];
 	organization?: IOrganization;
 }
 
 export const EmptyUserContext: IUserContext = {
 	user: {} as IUser,
-	authorizations: [],
+	features: [],
 	organization: undefined,
 };
 
@@ -23,7 +19,7 @@ let _systemUserContext: IUserContext | null = null;
 
 export const UserContextSchema = Type.Object({
 	user: UserSpec.fullSchema,
-	authorizations: Type.Array(UserContextAuthorizationSpec.fullSchema),
+	features: Type.Array(Type.String()),
 	organization: OrganizationSpec.fullSchema,
 });
 
@@ -33,7 +29,7 @@ export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema, {
 
 export const PublicUserContextSchema = Type.Object({
 	user: PublicUserSpec.fullSchema,
-	authorizations: Type.Array(UserContextAuthorizationSpec.fullSchema),
+	features: Type.Array(Type.String()),
 	organization: OrganizationSpec.fullSchema,
 });
 
@@ -67,14 +63,7 @@ export function initializeSystemUserContext(
 			_updated: new Date(),
 			_updatedBy: systemId,
 		},
-		authorizations: [
-			{
-				_id: "system-authorization", // This is a specific string key, should remain as is.
-				_orgId: metaOrg?._id,
-				role: "system",
-				feature: "system",
-			},
-		],
+		features: ["system"],
 		organization: metaOrg,
 	};
 	return _systemUserContext;

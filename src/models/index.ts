@@ -20,4 +20,3 @@ export * from "./query-options.model.js";
 export * from "./token-response.model.js";
 export * from "./user.model.js";
 export * from "./user-context.model.js";
-export * from "./user-context-authorization.model.js";
