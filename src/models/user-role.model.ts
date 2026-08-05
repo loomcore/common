@@ -1,15 +1,18 @@
 import { IAuditable, IEntity } from "@loomcore/common/models";
 import { entityUtils } from "@loomcore/common/utils";
 import { TSchema, Type } from "@sinclair/typebox";
+import { AppIdType } from "../types/app.types.js";
+import { getIdSchema } from "../validation/typebox-extensions.js";
 
 export interface IUserRole extends IEntity, IAuditable {
-    userId: string;
-    roleId: string;
+    userId: AppIdType;
+    roleId: AppIdType;
 }
+const idSchema = getIdSchema();
 
 export const UserRoleSchema: TSchema = Type.Object({
-    userId: Type.String({ minLength: 1 }),
-    roleId: Type.String({ minLength: 1 }),
+    userId: idSchema,
+    roleId: idSchema,
 });
 
 export const UserRoleModelSpec = entityUtils.getModelSpec(UserRoleSchema, { isAuditable: true });
