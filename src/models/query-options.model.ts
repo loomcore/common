@@ -1,6 +1,7 @@
 import { Type } from '@sinclair/typebox';
 import { SortDirection } from '../types/sort-direction.type.js';
 import { entityUtils } from '../utils/entity.utils.js';
+import { AppIdType } from '../types/index.js';
 
 /**
  * Allows reading the filters object in the query options.
@@ -11,8 +12,8 @@ import { entityUtils } from '../utils/entity.utils.js';
 export type Filter = {
 	eq?: string | number | boolean | Date;	// e.g. filters[uniqEntity][eq]=70308
 	ne?: string | number | boolean | Date;
-	any?: string[] | number[];
-	all?: string[] | number[];
+	any?: AppIdType[] | string[] | number[];
+	all?: AppIdType[] | string[] | number[];
 	lt?: number | Date;
 	lte?: number | Date;
 	gt?: number | Date;
@@ -20,7 +21,7 @@ export type Filter = {
 	startsWith?: string;
 	endsWith?: string;
 	contains?: string;
-	in?: string[] | number[] | Date[]; 			// e.g. filters[clientId][in]=101,102,104
+	in?: AppIdType[] | string[] | number[] | Date[]; 			// e.g. filters[clientId][in]=101,102,104
 };
 
 /**
