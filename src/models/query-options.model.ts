@@ -12,8 +12,8 @@ import { AppIdType } from '../types/index.js';
 export type Filter = {
 	eq?: string | number | boolean | Date;	// e.g. filters[uniqEntity][eq]=70308
 	ne?: string | number | boolean | Date;
-	any?: AppIdType[] | string[] | number[];
-	all?: AppIdType[] | string[] | number[];
+	any?: AppIdType[] | string[] | number[] | Date[];
+	all?: AppIdType[] | string[] | number[] | Date[];
 	lt?: number | Date;
 	lte?: number | Date;
 	gt?: number | Date;
