@@ -50,5 +50,5 @@ export const UserSpec = entityUtils.getModelSpec(UserSchema, {
 export const PublicUserSchema = Type.Omit(UserSchema, ["password"]);
 
 export const PublicUserSpec = entityUtils.getModelSpec(PublicUserSchema, {
-	isAuditable: true,
+	isAuditable: true, addAuditableSchema: false,
 });

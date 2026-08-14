@@ -1,18 +1,16 @@
 import { Type } from "@sinclair/typebox";
 import { entityUtils } from "../utils/entity.utils.js";
-import { type IOrganization, OrganizationSpec } from "./organization.model.js";
+import { type IOrganization } from "./organization.model.js";
 import { type IUser, PublicUserSpec, UserSpec } from "./user.model.js";
 
 export interface IUserContext {
 	user: IUser;
 	features: string[];
-	organization?: IOrganization;
 }
 
 export const EmptyUserContext: IUserContext = {
 	user: {} as IUser,
 	features: [],
-	organization: undefined,
 };
 
 let _systemUserContext: IUserContext | null = null;
@@ -20,7 +18,6 @@ let _systemUserContext: IUserContext | null = null;
 export const UserContextSchema = Type.Object({
 	user: UserSpec.fullSchema,
 	features: Type.Array(Type.String()),
-	organization: OrganizationSpec.fullSchema,
 });
 
 export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema, {
@@ -30,7 +27,6 @@ export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema, {
 export const PublicUserContextSchema = Type.Object({
 	user: PublicUserSpec.fullSchema,
 	features: Type.Array(Type.String()),
-	organization: OrganizationSpec.fullSchema,
 });
 
 export const PublicUserContextSpec = entityUtils.getModelSpec(
@@ -64,7 +60,6 @@ export function initializeSystemUserContext(
 			_updatedBy: systemId,
 		},
 		features: ["system"],
-		organization: metaOrg,
 	};
 	return _systemUserContext;
 }

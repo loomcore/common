@@ -41,6 +41,11 @@ export interface IModelSpec<T extends TSchema = TSchema> {
   isAuditable?: boolean;
 
   /**
+   * Indicates whether the model is an entity
+   */
+  isEntity?: boolean;
+
+  /**
    * Encode method that converts values to the correct type
    * @param type The TypeBox type to encode
    * @param value The value to encode
