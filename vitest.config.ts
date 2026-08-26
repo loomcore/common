@@ -6,7 +6,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     globals: true,
-    setupFiles: [],
+    setupFiles: ['./src/__tests__/setup/typebox.setup.ts'],
     globalSetup: [],
     include: ['src/**/__tests__/**/*.test.ts?(x)', 'src/**/?(*.)+(test).ts?(x)'],
     exclude: ['**/node_modules/**', '**/__tests__/setup/**/*'],

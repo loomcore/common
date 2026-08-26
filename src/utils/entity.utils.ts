@@ -1,4 +1,4 @@
-import { TObject, TSchema, Type, StaticEncode, StaticDecode } from '@sinclair/typebox';
+import { TSchema, Type, StaticEncode, StaticDecode } from '@sinclair/typebox';
 import { Value } from '@sinclair/typebox/value';
 import { TypeCompiler } from '@sinclair/typebox/compiler';
 import { ValueError, ValueErrorType } from '@sinclair/typebox/errors';
@@ -37,13 +37,13 @@ function getModelSpec<T extends TSchema>(
   const partialSchema = Type.Partial(schema);
 
   // Create array of schemas to include in the full schema
-  const schemasToIntersect: TObject[] = [];
+  const schemasToIntersect: TSchema[] = [];
 
   if (isEntity) {
     schemasToIntersect.push(EntitySchema);
   }
 
-  schemasToIntersect.push(schema as TObject);
+  schemasToIntersect.push(schema);
 
   if (includeAuditableSchema) {
     schemasToIntersect.push(AuditableSchema);

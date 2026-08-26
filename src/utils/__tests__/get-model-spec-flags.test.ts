@@ -1,11 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { Type } from '@sinclair/typebox';
-import { initializeTypeBox, setIdSchema } from '../../validation/index.js';
-
-initializeTypeBox();
-setIdSchema(Type.String({ title: 'ID' }));
-
-const { entityUtils } = await import('../entity.utils.js');
+import { entityUtils } from '../entity.utils.js';
 
 const DomainSchema = Type.Object({ name: Type.String() });
 const id = '507f1f77bcf86cd799439011';

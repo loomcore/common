@@ -103,10 +103,10 @@ describe('entityUtils', () => {
       expect(encodedEntity).toBeDefined();
       expect(encodedEntity.name).toBe('Audit Props Test');
       expect(typeof encodedEntity._created).toBe('string');
-      expect(encodedEntity._created).toBe(now.toISOString());
+      expect(encodedEntity._created).toBe(now.toISOString().slice(0, -1));
       expect(encodedEntity._createdBy).toBe('test-user');
       expect(typeof encodedEntity._updated).toBe('string');
-      expect(encodedEntity._updated).toBe(now.toISOString());
+      expect(encodedEntity._updated).toBe(now.toISOString().slice(0, -1));
       expect(encodedEntity._updatedBy).toBe('test-user');
 
       // Extra property should be removed
