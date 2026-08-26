@@ -1,4 +1,4 @@
-import { TSchema, Type, StaticEncode, StaticDecode } from '@sinclair/typebox';
+import { TObject, TSchema, Type, StaticEncode, StaticDecode } from '@sinclair/typebox';
 import { Value } from '@sinclair/typebox/value';
 import { TypeCompiler } from '@sinclair/typebox/compiler';
 import { ValueError, ValueErrorType } from '@sinclair/typebox/errors';
@@ -21,33 +21,39 @@ function getValidator(schema: TSchema): ReturnType<typeof TypeCompiler.Compile> 
 }
 
 /**
- * Creates an object with schema and validators - everything needed for validation
+ * Creates an object with schema and validators - everything needed for validation.
+ * Returned isEntity / isAuditable are the same values used to compose fullSchema
+ * (defaults: isEntity true, isAuditable false).
  * @param schema The original TypeBox schema
  * @param options Configuration options (e.g., { isAuditable: true })
  * @returns Object containing schema, partialSchema, fullSchema, validator, partialValidator, and fullValidator
  */
 function getModelSpec<T extends TSchema>(
   schema: T,
-  options: { isAuditable?: boolean; isEntity?: boolean; addAuditableSchema?: boolean } = {}
+  options: { isAuditable?: boolean; isEntity?: boolean; addAuditableSchema?: boolean; } = {}
 ): IModelSpec {
-  const { isAuditable = false, isEntity = true, addAuditableSchema = true } = options;
+  const { isAuditable = false, isEntity = true, addAuditableSchema } = options;
+  const includeAuditableSchema = addAuditableSchema ?? isAuditable;
   const partialSchema = Type.Partial(schema);
 
   // Create array of schemas to include in the full schema
-  const schemasToIntersect = [];
+  const schemasToIntersect: TObject[] = [];
 
   if (isEntity) {
     schemasToIntersect.push(EntitySchema);
   }
 
-  schemasToIntersect.push(schema);
+  schemasToIntersect.push(schema as TObject);
 
-  if (isAuditable && addAuditableSchema) {
+  if (includeAuditableSchema) {
     schemasToIntersect.push(AuditableSchema);
   }
 
-  // Create the full schema using Type.Intersect
-  const fullSchema = Type.Intersect(schemasToIntersect);
+  // Composite merges object schemas so identity fields (`_id`) are not dropped by Clean.
+  // Intersect + Clean keeps only the last object's properties.
+  const fullSchema = schemasToIntersect.length === 1
+    ? schemasToIntersect[0]
+    : Type.Composite(schemasToIntersect);
 
   // Create validators for all schemas
   const validator = getValidator(schema);
@@ -77,7 +83,7 @@ function getModelSpec<T extends TSchema>(
     return Value.Parse(['Clean', 'Default', 'Convert', 'Decode'], fullSchema, entity) as E;
   }
 
-  // Create a clean method that removes properties not in the schema
+  // Create a clean method that removes properties not defined in the schema
   const clean = <E>(entity: E): E => {
     if (!entity) return entity;
 
@@ -92,8 +98,8 @@ function getModelSpec<T extends TSchema>(
     validator,
     partialValidator,
     fullValidator,
-    isAuditable: !!options.isAuditable,
-    isEntity: !!options.isEntity,
+    isAuditable,
+    isEntity,
     encode,
     decode,
     clean

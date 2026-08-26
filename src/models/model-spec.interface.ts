@@ -36,14 +36,14 @@ export interface IModelSpec<T extends TSchema = TSchema> {
   fullValidator: ReturnType<typeof TypeCompiler.Compile>;
 
   /**
-   * Indicates whether the model is auditable
+   * Whether AuditableSchema was composed into fullSchema.
    */
-  isAuditable?: boolean;
+  isAuditable: boolean;
 
   /**
-   * Indicates whether the model is an entity
+   * Whether EntitySchema (`_id`, `_orgId`) was composed into fullSchema.
    */
-  isEntity?: boolean;
+  isEntity: boolean;
 
   /**
    * Encode method that converts values to the correct type
