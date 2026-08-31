@@ -69,17 +69,20 @@ export const getSystemUserId = (): AppIdType => {
 };
 
 // Date-time transform utility functions
+/**
+ * 
+ * @returns ISO 8601 date-time string
+ */
 export function TypeboxIsoDate(options: object = {}) {
 	const dateTransform = Type.Transform(
 		Type.String({ format: "date-time", ...options }),
 	)
 		.Decode((value) => new Date(value))
 		.Encode((value) => {
-			if (value instanceof Date) return value.toISOString().slice(0, -1);
+			if (value instanceof Date) return value.toISOString();
 			if (typeof value === "string" || typeof value === "number") {
 				const date = new Date(value);
-				date.setUTCHours(0, 0, 0, 0);
-				return date.toISOString().slice(0, -1);
+				return date.toISOString();
 			}
 			return value;
 		});
@@ -98,13 +101,11 @@ export function TypeboxDate(options: object = {}) {
 		})
 		.Encode((value) => {
 			if (value instanceof Date) {
-				value.setUTCHours(0, 0, 0, 0);
-				return value.toISOString().slice(0, -1);
+				return value.toISOString().slice(0, 10);
 			}
 			if (typeof value === "string" || typeof value === "number") {
 				const date = new Date(value);
-				date.setUTCHours(0, 0, 0, 0);
-				return date.toISOString().slice(0, -1);
+				return date.toISOString().slice(0, 10);
 			}
 			return value;
 		});
