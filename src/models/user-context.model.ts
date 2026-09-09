@@ -6,11 +6,13 @@ import { type IUser, PublicUserSpec, UserSpec } from "./user.model.js";
 export interface IUserContext {
 	user: IUser;
 	features: string[];
+	isImpersonating?: boolean;
 }
 
 export const EmptyUserContext: IUserContext = {
 	user: {} as IUser,
 	features: [],
+	isImpersonating: undefined,
 };
 
 let _systemUserContext: IUserContext | null = null;
@@ -18,6 +20,7 @@ let _systemUserContext: IUserContext | null = null;
 export const UserContextSchema = Type.Object({
 	user: UserSpec.fullSchema,
 	features: Type.Array(Type.String()),
+	isImpersonating: Type.Optional(Type.Boolean()),
 });
 
 export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema, {
@@ -27,6 +30,7 @@ export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema, {
 export const PublicUserContextSchema = Type.Object({
 	user: PublicUserSpec.fullSchema,
 	features: Type.Array(Type.String()),
+	isImpersonating: Type.Optional(Type.Boolean()),
 });
 
 export const PublicUserContextSpec = entityUtils.getModelSpec(
