@@ -3,7 +3,7 @@ import { entityUtils } from "@loomcore/common/utils";
 import { Type } from "@sinclair/typebox";
 import { getIdSchema } from "../validation/index.js";
 
-export interface IPhoneNumberModel extends IEntity, IAuditable {
+export interface IPhoneNumber extends IEntity, IAuditable {
     phoneNumber: string;
     phoneNumberType: string;
     isDefault: boolean;
