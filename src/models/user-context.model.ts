@@ -6,21 +6,22 @@ import { type IUser, PublicUserSpec, UserSpec } from "./user.model.js";
 export interface IUserContext {
 	user: IUser;
 	features: string[];
-	isImpersonating?: boolean;
+	impersonatorId?: AppIdType;
 }
 
 export const EmptyUserContext: IUserContext = {
 	user: {} as IUser,
 	features: [],
-	isImpersonating: undefined,
+	impersonatorId: undefined,
 };
 
 let _systemUserContext: IUserContext | null = null;
 
+const idSchema = getIdSchema();
 export const UserContextSchema = Type.Object({
 	user: UserSpec.fullSchema,
 	features: Type.Array(Type.String()),
-	isImpersonating: Type.Optional(Type.Boolean()),
+	impersonatorId: Type.Optional(idSchema),
 });
 
 export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema, {
@@ -40,7 +41,8 @@ export const PublicUserContextSpec = entityUtils.getModelSpec(
 
 // ******************************************************
 // functions to handle initializing the system user context - we need config and the metaOrgId to properly initialize
-import { getSystemUserId } from "../validation/index.js";
+import { getIdSchema, getSystemUserId } from "../validation/index.js";
+import { AppIdType } from "../types/app.types.js";
 
 // ... (other imports)
 
