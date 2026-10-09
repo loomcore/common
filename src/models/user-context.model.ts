@@ -31,7 +31,7 @@ export const UserContextSpec = entityUtils.getModelSpec(UserContextSchema, {
 export const PublicUserContextSchema = Type.Object({
 	user: PublicUserSpec.fullSchema,
 	features: Type.Array(Type.String()),
-	isImpersonating: Type.Optional(Type.Boolean()),
+	impersonatorId: Type.Optional(idSchema),
 });
 
 export const PublicUserContextSpec = entityUtils.getModelSpec(
