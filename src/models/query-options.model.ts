@@ -10,8 +10,8 @@ import { AppIdType } from '../types/index.js';
  * filters[name][contains]=burk
  */
 export type Filter = {
-	eq?: string | number | boolean | Date;	// e.g. filters[uniqEntity][eq]=70308
-	ne?: string | number | boolean | Date;
+	eq?: string | number | boolean | Date | null;	// e.g. filters[uniqEntity][eq]=70308
+	ne?: string | number | boolean | Date | null;
 	any?: AppIdType[] | string[] | number[] | Date[];
 	all?: AppIdType[] | string[] | number[] | Date[];
 	lt?: number | Date;
