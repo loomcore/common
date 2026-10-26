@@ -11,7 +11,6 @@ export interface IOrganization extends IAuditable {
 	description?: string;
 	status: number;
 	isMetaOrg: boolean;
-	authToken?: string;
 }
 
 const idSchema = getIdSchema();
@@ -39,11 +38,6 @@ export const OrganizationSchema = Type.Object({
 		title: "Is Meta Organization",
 		default: false,
 	}),
-	authToken: Type.Optional(
-		Type.String({
-			title: "Authentication Token",
-		}),
-	),
 });
 
 // Create the model spec with auditable properties
