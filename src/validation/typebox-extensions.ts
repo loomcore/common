@@ -92,20 +92,19 @@ export function TypeboxIsoDate(options: object = {}) {
 // Date transform utility functions
 export function TypeboxDate(options: object = {}) {
 	const dateTransform = Type.Transform(
-		Type.String({ format: "date", ...options }),
+		Type.String({ ...options }),
 	)
 		.Decode((value) => {
-			const date = new Date(value);
-			date.setUTCHours(0, 0, 0, 0);
-			return date;
+			return new Date(`${value.slice(0, 10)}T00:00:00`);
 		})
 		.Encode((value) => {
 			if (value instanceof Date) {
-				return value.toISOString().slice(0, 10);
+				value.setUTCHours(0, 0, 0, 0);
+				return value.toISOString().slice(0, 19);
 			}
 			if (typeof value === "string" || typeof value === "number") {
-				const date = new Date(value);
-				return date.toISOString().slice(0, 10);
+				const dateStringFromValue = new Date(value).toISOString();
+				return dateStringFromValue.slice(0, 19);
 			}
 			return value;
 		});
