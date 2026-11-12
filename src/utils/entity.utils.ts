@@ -1,4 +1,4 @@
-import { TSchema, Type, StaticEncode, StaticDecode } from '@sinclair/typebox';
+import { TSchema, Type, StaticEncode, StaticDecode, Kind } from '@sinclair/typebox';
 import { Value } from '@sinclair/typebox/value';
 import { TypeCompiler } from '@sinclair/typebox/compiler';
 import { ValueError, ValueErrorType } from '@sinclair/typebox/errors';
@@ -34,7 +34,19 @@ function getModelSpec<T extends TSchema>(
 ): IModelSpec {
   const { isAuditable = false, isEntity = true, addAuditableSchema } = options;
   const includeAuditableSchema = addAuditableSchema ?? isAuditable;
-  const partialSchema = Type.Partial(schema);
+
+  // Type.Composite discards each child's additionalProperties, and TypeBox Clean only
+  // keeps extra keys when additionalProperties is a TypeBox Kind schema (e.g. Type.Any()).
+  const additionalProperties =
+    typeof schema.additionalProperties === 'object' &&
+    schema.additionalProperties !== null &&
+    Kind in schema.additionalProperties
+      ? schema.additionalProperties
+      : undefined;
+
+  const partialSchema = additionalProperties
+    ? Type.Partial(schema, { additionalProperties })
+    : Type.Partial(schema);
 
   // Create array of schemas to include in the full schema
   const schemasToIntersect: TSchema[] = [];
@@ -53,7 +65,9 @@ function getModelSpec<T extends TSchema>(
   // Intersect + Clean keeps only the last object's properties.
   const fullSchema = schemasToIntersect.length === 1
     ? schemasToIntersect[0]
-    : Type.Composite(schemasToIntersect);
+    : additionalProperties
+      ? Type.Composite(schemasToIntersect, { additionalProperties })
+      : Type.Composite(schemasToIntersect);
 
   // Create validators for all schemas
   const validator = getValidator(schema);
