@@ -17,7 +17,7 @@ const idSchema = getIdSchema();
 
 // Organization-specific properties schema
 export const OrganizationSchema = Type.Object({
-	_id: idSchema,
+	_id: Type.Optional(idSchema),
 	name: Type.String({
 		title: "Name",
 	}),
