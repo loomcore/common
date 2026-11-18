@@ -11,7 +11,7 @@ export interface IPhoneNumber extends IEntity, IAuditable {
 
 const idSchema = getIdSchema();
 export const phoneNumberSchema = Type.Object({
-    _id: idSchema,
+    _id: Type.Optional(idSchema),
     phoneNumber: Type.String(),
     phoneNumberType: Type.String(),
     isDefault: Type.Boolean(),
