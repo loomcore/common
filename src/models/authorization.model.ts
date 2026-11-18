@@ -1,8 +1,9 @@
 import { Type } from "@sinclair/typebox";
-import { IAuditable, IEntity } from "@loomcore/common/models";
-import { entityUtils } from "@loomcore/common/utils";
-import { getIdSchema, TypeboxIsoDate } from "@loomcore/common/validation";
-import { AppIdType } from "../types/app.types.js";
+import type { AppIdType } from "../types/app.types.js";
+import { entityUtils } from "../utils/entity.utils.js";
+import { getIdSchema, TypeboxIsoDate } from "../validation/index.js";
+import type { IAuditable } from "./auditable.model.js";
+import type { IEntity } from "./entity.model.js";
 
 export interface IAuthorization extends IEntity, IAuditable {
     roleId: AppIdType;

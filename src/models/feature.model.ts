@@ -1,6 +1,6 @@
-import { IEntity } from "@loomcore/common/models";
-import { entityUtils } from "@loomcore/common/utils";
 import { TSchema, Type } from "@sinclair/typebox";
+import { entityUtils } from "../utils/entity.utils.js";
+import type { IEntity } from "./entity.model.js";
 
 export interface IFeature extends IEntity {
     name: string;

@@ -1,8 +1,8 @@
-import type { IEntity } from "@loomcore/common/models";
-import type { AppIdType } from "@loomcore/common/types";
-import { entityUtils } from "@loomcore/common/utils";
-import { getIdSchema, TypeboxIsoDate } from "@loomcore/common/validation";
 import { Type } from "@sinclair/typebox";
+import type { AppIdType } from "../types/app.types.js";
+import { entityUtils } from "../utils/entity.utils.js";
+import { getIdSchema, TypeboxIsoDate } from "../validation/index.js";
+import type { IEntity } from "./entity.model.js";
 
 export interface IRefreshToken extends IEntity {
 	token: string;
