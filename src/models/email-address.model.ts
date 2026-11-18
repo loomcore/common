@@ -12,7 +12,7 @@ export interface IEmailAddress extends IEntity, IAuditable {
 }
 const idSchema = getIdSchema();
 export const emailAddressSchema = Type.Object({
-    _id: idSchema,
+    _id: Type.Optional(idSchema),
     personId: idSchema,
     emailAddress: Type.String(),
     emailAddressType: Type.String(),
