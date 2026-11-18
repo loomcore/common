@@ -13,7 +13,7 @@ export interface IOrganizationDomain extends IAuditable {
 const idSchema = getIdSchema();
 
 export const OrganizationDomainSchema = Type.Object({
-	_id: idSchema,
+	_id: Type.Optional(idSchema),
 	domain: Type.String({
 		title: "Domain",
 	}),
