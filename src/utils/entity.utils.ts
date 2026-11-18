@@ -121,7 +121,10 @@ function getModelSpec<T extends TSchema>(
 }
 
 /**
- * Validates data against a validator
+ * Validates data against a validator.
+ * TypeboxIsoDate Check accepts both decoded Date values and encoded ISO strings
+ * (see TypeboxIsoDate). Convert runs first for plain JSON coercions; callers may
+ * pass typed entities with real Date objects without pre-encoding.
  * @param modelSpec The model specification
  * @param data The data to validate
  * @param isPartial Whether to use the partial validator, default is false
@@ -139,7 +142,7 @@ function validate(
   const valid = validator.Check(decodedData);
 
   if (!valid) {
-    const errors = [...validator.Errors(data)];
+    const errors = [...validator.Errors(decodedData)];
     return errors;
   }
 

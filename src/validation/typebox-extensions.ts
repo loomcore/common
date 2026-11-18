@@ -70,14 +70,20 @@ export const getSystemUserId = (): AppIdType => {
 
 // Date-time transform utility functions
 /**
+ * Decoded form is Date; encoded/wire form is an ISO 8601 date-time string.
+ * Check accepts both: services validate typed entities with real Date values,
+ * while JSON/API payloads still validate as date-time strings.
  * 
  * @returns ISO 8601 date-time string
  */
 export function TypeboxIsoDate(options: object = {}) {
 	const dateTransform = Type.Transform(
-		Type.String({ format: "date-time", ...options }),
+		Type.Union([
+			Type.String({ format: "date-time", ...options }),
+			Type.Date(options),
+		]),
 	)
-		.Decode((value) => new Date(value))
+		.Decode((value) => (value instanceof Date ? value : new Date(value)))
 		.Encode((value) => {
 			if (value instanceof Date) return value.toISOString();
 			if (typeof value === "string" || typeof value === "number") {
